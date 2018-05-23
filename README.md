@@ -9,3 +9,6 @@ Another changes on the way!
 
 
 Changes fron git site!!!
+
+
+Create changes for diff command!
