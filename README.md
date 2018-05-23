@@ -6,3 +6,6 @@ Hello world! Let's create new folder/file?!
 
 
 Another changes on the way!
+
+
+Changes fron git site!!!
