@@ -1,0 +1,124 @@
+<html>
+    <head>
+        <title>Debug</title>
+        <script src="code.js"></script>
+        <link href="style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="block me">
+            <h1>WHO AM I?</h1>
+            <h2>FEW WORDS ABOUT ME.</h2>
+            <div> 
+                <img src="Angry-Troll-Face.png" class="picture" alt="Smiley face"
+                </img>
+            </div>
+            <div>
+                <p class="simple_text">
+                    I’m a seasoned and award-winning agency creative — a passionate 
+                    leader with a proven track record for translating complex ideas 
+                    into slick, successful campaigns. I’ve managed and motivated 
+                    interdisciplinary teams, both as official in-house go-to gal 
+                    and A-list agency hotshot. 
+                </p>
+                <p class="simple_text">
+                    I've worked with some pretty cool brands, including Neiman Marcus, 
+                    TIGI/Toni & Guy, Bergdorf Goodman, jcpenney, Michaels, Nationwide 
+                    Insurance, D Magazine, GameStop, Dreamworks, Scholastic, Direct 
+                    Energy, and Dr Pepper.
+                </p>
+                <div>
+                    <div id="pointer_yellow"></div>
+                    <p class="special_text">Hire me, I'm really good!</p>
+                </div>
+
+                
+                
+            </div>
+        </div>
+
+        <div class="block my_skills">
+            <h1>MY SKILLS</h1>
+            <h2>WHAT I AM BEST AT.</h2>
+            <div class="arrow_progress">
+                    <div class="arrow_text" >first</div>
+                    <progress id="pointer" value="15" max="100"></progress>
+                </div>
+            <div class="arrow_progress">
+                    <div class="arrow_text" >second</div>
+                    <progress id="pointer" value="20" max="100"></progress>
+                </div>
+            <div class="arrow_progress">
+                    <div class="arrow_text" >third</div>
+                    <progress id="pointer" value="35" max="100"></progress>
+                </div>
+            <div class="arrow_progress">
+                    <div class="arrow_text" >fourth</div>
+                    <progress id="pointer" value="46" max="100" data-label="50% Complete"></progress>
+                </div>
+            <div class="arrow_progress">
+                <div class="arrow_text" >fifth</div>
+                <progress id="pointer" value="23" max="100" data-label="50% Complete"></progress>
+            </div>
+        </div>
+
+        <div class="line_break"></div>
+
+        <div id="circle" class="circle_simp">
+            <div id="pointer_black"></div>
+        </div>
+        <div class="invisible_line"></div>
+
+        <div class="block services">
+            <h1>SERVICES</h1>
+            <h2>BRAND IDENTITY, PRINT & WEB.</h2>
+            
+            <div class="pic_circles">
+                <div>Think</div>
+                <div id="circle2" class="circle_simp"></div>
+                <div id="circle2" class="circle_simp"></div>
+            </div>
+            <div>
+                <p class="simple_text">
+                    Brand identity. Print&Web: It's time ti bring it all
+                    together. A unified identity, online and offlint, is an
+                    absolute must for a reputable brand. These are the 
+                    things I do best.
+                </p>
+                <p class="simple_text">
+                    Nothing is more rewarding for me than making great
+                    work for clients with meaningfull missions.
+                </p>
+            </div>
+        </div>
+
+        <div class="block awards">
+            <h1>AWARDS</h1>
+            <h2>MY PRECIOUS COLLECTION.</h2>
+            <div>
+                <p class="simple_text">
+                    It's always good to receive positive feedback for
+                    your work * from clients and moreoverm from designers! 
+                    Take a look around and veiw my awards. Launch page...
+                </p>
+            </div>
+        </div>
+
+        <script>
+                function move() {
+                  var elem = document.getElementById("myBar");   
+                  var width = 20;
+                  var id = setInterval(frame, 10);
+                  function frame() {
+                    if (width >= 100) {
+                      clearInterval(id);
+                    } else {
+                      width++; 
+                      elem.style.width = width + '%'; 
+                      document.getElementById("demo").innerHTML = width * 1  + '%';
+                    }
+                  }
+                }
+        </script>
+        <!-- <script>show();</script> -->
+    </body>
+</html>
