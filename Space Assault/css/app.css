@@ -15,6 +15,10 @@ canvas {
     right: 0;
 }
 
+.sprite{
+    border:2px solid black;
+}
+
 .wrapper {
     width: 512px;
     margin: 0 auto;
