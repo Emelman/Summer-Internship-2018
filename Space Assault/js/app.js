@@ -94,11 +94,20 @@ function generateRndEnemy() {
 function generateRndMegalith(){
     if(spawnMegalith)return;
     for(var i=0; i < 3; i++) { 
-        megaliths.push({
-            pos: [ (canvas.width-200) * Math.random() + 100,
-                 Math.random() * (canvas.height - 39)],
-            sprite: new Sprite(imgSourceName,[3,215],[50,50],1,[0])
-        });
+        if(i%2 > 0){
+            megaliths.push({
+                pos: [ (canvas.width-200) * Math.random() + 100,
+                     Math.random() * (canvas.height - 39)],
+                sprite: new Sprite(imgSourceName,[3,215],[50,50],1,[0])
+            });
+        }else {
+            megaliths.push({
+                pos: [ (canvas.width-200) * Math.random() + 100,
+                     Math.random() * (canvas.height - 39)],
+                sprite: new Sprite(imgSourceName,[3,270],[50,50],1,[0])
+            });
+        }
+        
     }
     spawnMegalith = true;
 }
@@ -270,31 +279,6 @@ function checkCollisions() {
 
             if(calculateAvoidMethod(pos, pos3, size, size3, ship))break;
         }
-            
-
-        //avoid Manuver calculating
-        
-        // for(var k=0; k < megaliths.length; k++){
-        //     var dist = pos[0]-pos3[0];
-        //     if(dist < 150 && nearest > dist){
-        //         nearest = dist;
-        //         var modPos1 = [];
-        //         modPos1[0] = pos3[0];
-        //         modPos1[1] = pos[1];
-                
-        //         if(boxCollides(modPos1,size, pos3,size3 && nearest > pos[0]-pos3[0])){
-        //             ship.avoidManuver = true;
-        //             if(pos[1]+size[1]/2 >= pos3[1]+size3[1]/2){
-        //                 ship.sideToAvoid = avoidDown;
-        //             }
-        //             else {
-        //                 ship.sideToAvoid = avoidUp;
-        //             }
-        //             break;
-        //         }
-        //     }
-        // }
-
         
         if(continueCycle) continue;
         if(boxCollides(pos, size, player.pos, player.sprite.size)) {
