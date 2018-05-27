@@ -9,9 +9,26 @@
         this.url = url;
         this.dir = dir || 'horizontal';
         this.once = once;
+        this.advanceSize = 0;
+        this.lastAdvance = Date.now();
+        this.sizeBack = false;
     };
 
     Sprite.prototype = {
+
+        superPulse: function(dt){
+            if(dt - this.lastAdvance < 200) {
+                if(!this.sizeBack){
+                    if(this.advanceSize < 10) this.advanceSize++;
+                    else this.sizeBack = true;
+                }
+                else {
+                    if(this.advanceSize > 0) this.advanceSize--;
+                    else this.sizeBack = false;
+                }
+            }
+        },
+
         update: function(dt) {
             this._index += this.speed*dt;
         },
@@ -45,10 +62,10 @@
             }
 
             ctx.drawImage(resources.get(this.url),
-                          x, y,
+                          x+this.advanceSize/2, y+this.advanceSize/2,
                           this.size[0], this.size[1],
                           0, 0,
-                          this.size[0], this.size[1]);
+                          this.size[0]+this.advanceSize, this.size[1]+this.advanceSize);
         }
     };
 

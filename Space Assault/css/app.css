@@ -37,6 +37,17 @@ canvas {
     font-size: 2em;
 }
 
+#breacker{
+    clear: both;
+}
+
+#mana{
+    float: right;
+    margin:0px;
+    color:blue;
+    font-size: 2em;
+}
+
 .key {
     color: #aaffdd;
 }
