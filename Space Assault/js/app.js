@@ -100,17 +100,22 @@ function generateRndEnemy() {
 function generateRndMegalith(){
     if(spawnMegalith)return;
     for(var i=0; i < 3; i++) { 
-        if(i%2 > 0){
+        if(i == 0){
             megaliths.push({
-                pos: [ (canvas.width-200) * Math.random() + 100,
-                     Math.random() * (canvas.height - 39)],
+                pos: [ 133,65 ],
                 sprite: new Sprite(imgSourceName,[3,215],[50,50],1,[0])
             });
-        }else {
+        }
+        else if(i == 1){
             megaliths.push({
-                pos: [ (canvas.width-200) * Math.random() + 100,
-                     Math.random() * (canvas.height - 39)],
+                pos: [ 334,194 ],
                 sprite: new Sprite(imgSourceName,[3,270],[50,50],1,[0])
+            });
+        }
+        else {
+            megaliths.push({
+                pos: [ 232,352 ],
+                sprite: new Sprite(imgSourceName,[3,215],[50,50],1,[0])
             });
         }
         
@@ -456,12 +461,12 @@ function reset() {
     spawnMegalith = false;
     gameTime = 0;
     score = 0;
+    gatheredMana = 0;
 
     enemies = [];
     bullets = [];
     megaliths = [];
     manna = [];
 
-    // player.pos = [50, canvas.height / 2];
-    player.pos = [0, 0];
+    player.pos = [50, canvas.height / 2];
 };
