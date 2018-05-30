@@ -7,3 +7,4 @@ C:\Users\Emelman\Documents\EpamTrial\Summer-Internship-2018\Tanks\Tanks.VL.ViewL
 C:\Users\Emelman\Documents\EpamTrial\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.csproj.CoreCompileInputs.cache
 C:\Users\Emelman\Documents\EpamTrial\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.exe
 C:\Users\Emelman\Documents\EpamTrial\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.pdb
+C:\Users\Emelman\Documents\EpamTrial\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.MainStage.resources
