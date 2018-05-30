@@ -8,3 +8,12 @@ C:\Users\Emelman\Documents\EpamTrial\Summer-Internship-2018\Tanks\Tanks.VL.ViewL
 C:\Users\Emelman\Documents\EpamTrial\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.exe
 C:\Users\Emelman\Documents\EpamTrial\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.pdb
 C:\Users\Emelman\Documents\EpamTrial\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.MainStage.resources
+C:\Users\iiiuson\Source\Repos\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\bin\Debug\Tanks.VL.ViewLayer.exe.config
+C:\Users\iiiuson\Source\Repos\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.exe
+C:\Users\iiiuson\Source\Repos\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.pdb
+C:\Users\iiiuson\Source\Repos\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\bin\Debug\Tanks.VL.ViewLayer.exe
+C:\Users\iiiuson\Source\Repos\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\bin\Debug\Tanks.VL.ViewLayer.pdb
+C:\Users\iiiuson\Source\Repos\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.csprojResolveAssemblyReference.cache
+C:\Users\iiiuson\Source\Repos\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.MainStage.resources
+C:\Users\iiiuson\Source\Repos\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.Properties.Resources.resources
+C:\Users\iiiuson\Source\Repos\Summer-Internship-2018\Tanks\Tanks.VL.ViewLayer\obj\Debug\Tanks.VL.ViewLayer.csproj.GenerateResource.Cache

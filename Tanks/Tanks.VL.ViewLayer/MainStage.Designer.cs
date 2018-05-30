@@ -48,6 +48,8 @@
             this.Controls.Add(this.panel1);
             this.Name = "MainStage";
             this.Text = "Form1";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainStage_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainStage_KeyUp);
             this.ResumeLayout(false);
 
         }

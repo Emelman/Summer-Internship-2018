@@ -61,7 +61,6 @@
       <DependentUpon>MainStage.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectsAbilitys.cs" />
-    <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainStage.resx">
