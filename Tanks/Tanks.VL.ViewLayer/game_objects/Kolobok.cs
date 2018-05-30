@@ -14,8 +14,7 @@ namespace Tanks.VL.ViewLayer.game_objects
         PictureBox pictureBox1 = new PictureBox();
         Form stage;
         static Image pic = Image.FromFile("../../pics/hero.png");
-        KolobokControl contrl;
-
+        Point startPos = new Point(300, 460);
 
         Point position;
         string direction;
@@ -25,7 +24,7 @@ namespace Tanks.VL.ViewLayer.game_objects
         public Kolobok(Form myStage)
         {
             stage = myStage;
-            contrl = new KolobokControl();
+            
         }
 
         
@@ -33,6 +32,8 @@ namespace Tanks.VL.ViewLayer.game_objects
         {
             stage.Controls.Add(pictureBox1);
             pictureBox1.Image = pic;
+            pictureBox1.Left = startPos.X;
+            pictureBox1.Top = startPos.Y;
         }
 
         public void ChooseDirection()

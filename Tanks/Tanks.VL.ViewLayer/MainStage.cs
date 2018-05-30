@@ -8,13 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tanks.VL.ViewLayer.controller;
 using Tanks.VL.ViewLayer.game_objects;
 
 namespace Tanks.VL.ViewLayer
 {
     public partial class MainStage : Form
     {
-
+        KolobokControl contrl;
         Timer gameTimer;
         Stopwatch watch = new Stopwatch();
         public MainStage(string[] args)
@@ -23,6 +24,7 @@ namespace Tanks.VL.ViewLayer
             this.Size = new Size(int.Parse(args[0]), int.Parse(args[1]));
 
             Kolobok hero = new Kolobok(this);
+            contrl = new KolobokControl();
             hero.CreateBitmapAtRuntime();
 
             watch.Start();
