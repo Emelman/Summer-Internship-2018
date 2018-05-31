@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tanks.VL.ViewLayer
 {
-    public interface ObjectsAbilitys
+    public class EnumDirections
     {
-        void MoveYourSelf(Point pt);
-        void Shoot();
-        void ChooseDirection();
-
+        public enum Direction {UP=0,DOWN,LEFT,RIGHT};
     }
 }

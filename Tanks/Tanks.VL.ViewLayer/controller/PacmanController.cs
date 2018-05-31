@@ -10,38 +10,38 @@ using Tanks.VL.ViewLayer.game_models;
 
 namespace Tanks.VL.ViewLayer.controller
 {
-    
-    public class KolobokControl
+    public class PacmanController
     {
-        
         private Kolobok_model model;
 
-        public KolobokControl(Kolobok_model model)
+        public PacmanController(Kolobok_model model)
         {
             this.model = model;
         }
 
-        public Point moveUp()
+        public void moveUp()
         {
-            return model.MoveUp();
+            model.MoveUp();
         }
 
-        public Point moveDown()
+        public void moveDown()
         {
-            return model.MoveDown();
+            model.MoveDown();
         }
 
-        public Point moveLeft()
+        public void moveLeft()
         {
-            return model.MoveLeft();
+            model.MoveLeft();
         }
 
-        public Point moveRight()
+        public void moveRight()
         {
-            return model.MoveRight();
+            model.MoveRight();
+        }
+
+        public void SetDirection(int direction)
+        {
+            model.SetDirection(direction);
         }
     }
-
-    
-
 }

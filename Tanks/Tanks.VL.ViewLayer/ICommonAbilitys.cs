@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Tanks.VL.ViewLayer.game_objects;
+
+namespace Tanks.VL.ViewLayer
+{
+    public interface ICommonAbilitys
+    {
+        void MoveYourSelf(Graphics g);
+        void Shoot();
+        void ChooseDirection();
+
+    }
+}
