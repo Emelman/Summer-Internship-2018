@@ -7,41 +7,66 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Tanks.VL.ViewLayer.game_models;
+using Tanks.VL.ViewLayer.game_objects;
 
 namespace Tanks.VL.ViewLayer.controller
 {
     public class PacmanController
     {
         private Kolobok_model model;
+        private KolobokView view;
 
-        public PacmanController(Kolobok_model model)
+        public PacmanController(Kolobok_model _model, KolobokView _view)
         {
-            this.model = model;
+            model = _model;
+            view = _view;
+
+            view.OnMoving += ModelCHangePosition;
+            view.PickDirection += ModelChangeDirection;
+            model.OnDirectionChanged += HandleViewDirection;
+            model.OnPositionChanged += HandleViewPosition;
+            HandleViewDirection(model, EventArgs.Empty);
+            HandleViewPosition(model, EventArgs.Empty);
         }
 
-        public void moveUp()
+        private void ModelChangeDirection(int sender)
         {
-            model.MoveUp();
+            model.SetDirection(sender);
         }
 
-        public void moveDown()
+        private void ModelCHangePosition(KolobokView sender, EventArgs e)
         {
-            model.MoveDown();
+            switch (model.Direction)
+            {
+                case (int)EnumDirections.Direction.UP:
+                    model.MoveUp();
+                    break;
+                case (int)EnumDirections.Direction.DOWN:
+                    model.MoveDown();
+                    break;
+                case (int)EnumDirections.Direction.LEFT:
+                    model.MoveLeft();
+                    break;
+                case (int)EnumDirections.Direction.RIGHT:
+                    model.MoveRight();
+                    break;
+                default:
+                    throw (new ArgumentException("No such direction!"));
+            }
+        }
+        private void HandleViewPosition(object sender, EventArgs e)
+        {
+            view.Position = model.Position;
         }
 
-        public void moveLeft()
+        private void HandleViewDirection(object sender, EventArgs e)
         {
-            model.MoveLeft();
+            view.Direction = model.Direction;
         }
 
-        public void moveRight()
+        public void Update()
         {
-            model.MoveRight();
-        }
-
-        public void SetDirection(int direction)
-        {
-            model.SetDirection(direction);
+            view.UpdateLogick();
         }
     }
 }

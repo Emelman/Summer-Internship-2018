@@ -10,9 +10,9 @@ namespace Tanks.VL.ViewLayer
 {
     public interface ICommonAbilitys
     {
-        void MoveYourSelf(Graphics g);
+        void DrawYourSelf(Graphics g);
         void Shoot();
-        void ChooseDirection();
+        void ChooseDirection(EnumDirections.Direction dir);
 
     }
 }

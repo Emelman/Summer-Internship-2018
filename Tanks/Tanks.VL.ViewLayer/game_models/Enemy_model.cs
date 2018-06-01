@@ -8,64 +8,57 @@ using Tanks.VL.ViewLayer.game_objects;
 
 namespace Tanks.VL.ViewLayer.game_models
 {
-    class Enemy_model:IMoving
+    class Enemy_model
     {
         private int id;
         private Point position;
         private int direction;
         private int speed;
+        private Size square;
+
+        public event EventHandler OnDirectionChanged = (sender, e) => { };
+        public event EventHandler OnPositionChanged = (sender, e) => { };
 
         public int Id { get => id; set => id = value; }
         public int Speed { get => speed; set => speed = value; }
-        public int Direction { get => direction; set => direction = value; }
-        public Point Position { get => position; set => position = value; }
-
-        public Point MoveUp()
+        public Point Position
         {
-            position.Y -= Speed;
-            if (position.Y < 0)
+            get
             {
-                position.Y = 0;
+                return position;
             }
-            return position;
-        }
-
-        public Point MoveDown()
-        {
-            position.Y += Speed;
-            if (position.Y > 600)
+            set
             {
-                position.Y = 600;
+                if (position != value)
+                {
+                    position = value;
+                    OnPositionChanged(this, EventArgs.Empty);
+                }
             }
-            return position;
         }
-
-        public Point MoveLeft()
+        public int Direction
         {
-            position.X -= Speed;
-            if (position.X < 0)
+            get
             {
-                position.X = 0;
+                return direction;
             }
-            return position;
-        }
-
-        public Point MoveRight()
-        {
-            position.X += Speed;
-            if (position.X > 600)
+            set
             {
-                position.X = 600;
+                direction = value;
+                OnDirectionChanged(this, EventArgs.Empty);
             }
-            return position;
         }
 
-        public void UpdateFromModel(Enemy foe)
+        public Size Square { get => square; set => square = value; }
+
+        public void SetDirection(int direct)
         {
-            foe.Position = Position;
-            foe.Direction = Direction;
+            Direction = direct;
         }
 
-
+        public void ChangePosition(Point pt)
+        {
+            Position = pt;
+        }
     }
 }

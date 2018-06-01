@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tanks.VL.ViewLayer.game_objects
+namespace Tanks.VL.ViewLayer.game_models
 {
-    class Brick
+    class Brick_model
     {
     }
 }

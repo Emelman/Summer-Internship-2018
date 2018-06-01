@@ -3,20 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tanks.VL.ViewLayer.game_models;
 using Tanks.VL.ViewLayer.game_objects;
 
 namespace Tanks.VL.ViewLayer
 {
-    class EnemyProcessor
+    public interface IEnemyController
     {
-        private List<Enemy> mass;
-        public EnemyProcessor()
-        {
-            for(var i=0; i < 10; i++)
-            {
 
-            }
-
-        }
     }
 }

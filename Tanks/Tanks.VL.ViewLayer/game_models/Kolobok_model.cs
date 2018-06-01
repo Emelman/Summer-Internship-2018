@@ -13,49 +13,83 @@ namespace Tanks.VL.ViewLayer.game_models
         private Point position;
         private int direction;
         private int speed;
+        private Size square;
 
-        public Point Position { get => position; set => position = value; }
-        public int Direction { get => direction; set => direction = value; }
+        public event EventHandler OnDirectionChanged = (sender, e) => { };
+        public event EventHandler OnPositionChanged = (sender, e) => { };
+        public Point Position
+        {
+            get
+            {
+                return position;
+            }
+            set
+            {
+                if (position != value)
+                {
+                    position = value;
+                    OnPositionChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+        public int Direction
+        {
+            get => direction;
+            set
+            {
+                direction = value;
+                OnDirectionChanged(this, EventArgs.Empty);
+            }
+        }
         public int Speed { get => speed; set => speed = value; }
+        public Size Square { get => square; set => square = value; }
 
         public Point MoveUp()
         {
-            position.Y -= Speed;
-            if (position.Y < 0)
+            var pt = Position;
+            pt.Y -= Speed;
+            if (pt.Y < 0)
             {
-                position.Y = 0;
+                pt.Y = 0;
             }
-            return position;
+            Position = pt;
+            return Position;
         }
 
         public Point MoveDown()
         {
-            position.Y += Speed;
-            if(position.Y > 550)
+            var pt = Position;
+            pt.Y += Speed;
+            if(pt.Y > 550)
             {
-                position.Y = 550;
+                pt.Y = 550;
             }
-            return position;
+            Position = pt;
+            return Position;
         }
 
         public Point MoveLeft()
         {
-            position.X -= Speed;
-            if (position.X < 0)
+            var pt = Position;
+            pt.X -= Speed;
+            if (pt.X < 0)
             {
-                position.X = 0;
+                pt.X = 0;
             }
-            return position;
+            Position = pt;
+            return Position;
         }
 
         public Point MoveRight()
         {
-            position.X += Speed;
-            if (position.X > 550)
+            var pt = Position;
+            pt.X += Speed;
+            if (pt.X > 550)
             {
-                position.X = 550;
+                pt.X = 550;
             }
-            return position;
+            Position = pt;
+            return Position;
         }
 
         public void SetDirection(int direct)
@@ -63,10 +97,6 @@ namespace Tanks.VL.ViewLayer.game_models
             Direction = direct;
         }
 
-        public void UpdateFromModel(KolobokView kolobok)
-        {
-            kolobok.Position = Position;
-            kolobok.Direction = Direction;
-        }
+        
     }
 }

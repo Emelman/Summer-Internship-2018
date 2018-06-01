@@ -17,14 +17,18 @@ namespace Tanks.VL.ViewLayer
     public partial class MainStage : Form
     {
         PictureBox mainStageBox;
-        PacmanController contrl;
-        EnemyController foeControl;
-        KolobokView hero;
         Bitmap drawStage;
+
+        PacmanController contrl;
+        List<EnemyController> foeControls;
+
         Level_model lvlModel;
 
+        KolobokView hero;
+        List<TankView> enemyToDraw;
 
         Timer gameTimer;
+
         public MainStage(string[] args)
         {
             initGameStates(args);
@@ -34,17 +38,43 @@ namespace Tanks.VL.ViewLayer
 
         private void initGameStates(string[] args)
         {
+            initModel(args);
+            initView();
+            initControllers();
+            initGraphics(args);
+            StartGameUpdateLogick();
+        }
+
+        private void initModel(string[] args)
+        {
             lvlModel = new Level_model(int.Parse(args[2]), int.Parse(args[3]), int.Parse(args[4]));
-            contrl = new PacmanController(lvlModel.Hero);
-            hero = new KolobokView(contrl);
-            foeControl = new EnemyController();
+        }
+
+        private void initView()
+        {
+            hero = new KolobokView();
+            enemyToDraw = lvlModel.GetEnemyViewModels();
+        }
+
+        private void initControllers()
+        {
+            contrl = new PacmanController(lvlModel.Hero, hero);
+            var enenmyModels = lvlModel.GetEnemy_Models();
+            foeControls = new List<EnemyController>();
+            for(var i=0; i < enemyToDraw.Count; i++)
+            {
+                var ctrl = new EnemyController(enenmyModels[i], enemyToDraw[i]);
+                foeControls.Add(ctrl);
+            }
+        }
+
+        private void initGraphics(string[] args)
+        {
             //draw scene 
             mainStageBox = new PictureBox();
             mainStageBox.Size = new Size(int.Parse(args[0]), int.Parse(args[1]));
             this.Controls.Add(mainStageBox);
             drawStage = new Bitmap(int.Parse(args[0]), int.Parse(args[1]));
-
-            StartGameUpdateLogick();
         }
 
         private void StartGameUpdateLogick()
@@ -58,36 +88,44 @@ namespace Tanks.VL.ViewLayer
         private void gameUpdate(Object sender, EventArgs e)
         {
             gameTimer.Stop();
-            var enemys = lvlModel.GetEnemyViewModels(foeControl);
-            update(enemys);
-            render(enemys);
+            update();
+            render();
             gameTimer.Start();
         }
 
-        private void update(List<Enemy> enemys)
+        private void update()
         {
-            hero.UpdateLogick();
-            lvlModel.Hero.UpdateFromModel(hero);
-
-            for (var i = 0; i < enemys.Count; i++)
+            contrl.Update();
+            
+            for (var i = 0; i < enemyToDraw.Count; i++)
             {
-
+                enemyToDraw[i].UpdateLogick();
+            }
+            for(var i = 0; i < foeControls.Count; i++)
+            {
+                for(var j = i+1; j < foeControls.Count; j++)
+                {
+                    if (foeControls[i].CheckCollision(foeControls[j].EnemyModelPosition()))
+                    {
+                        foeControls[j].SwitchDirection();
+                        i++;
+                        break;
+                    }
+                }
             }
         }
 
-        private void render(List<Enemy> enemys)
+        private void render()
         {
             //Bitmap bmp = new Bitmap(this.Width, this.Height);
             using (Graphics g = Graphics.FromImage(drawStage))
             {
                 g.Clear(Color.Gray);
-                //hero.ChooseDirection();
-                hero.MoveYourSelf(g);
-
-                for (var i = 0; i < enemys.Count; i++)
+                for (var i = 0; i < enemyToDraw.Count; i++)
                 {
-                    enemys[i].MoveYourSelf(g);
+                    enemyToDraw[i].DrawYourSelf(g);
                 }
+                hero.DrawYourSelf(g);
             }
             mainStageBox.Image = drawStage;
         }

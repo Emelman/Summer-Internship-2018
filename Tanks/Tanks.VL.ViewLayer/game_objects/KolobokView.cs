@@ -19,16 +19,21 @@ namespace Tanks.VL.ViewLayer.game_objects
         public static Boolean rightPressed = false;
         public static Boolean shootPressed = false;
 
+        public delegate void StartMoving(KolobokView sender, EventArgs e);
+        public event StartMoving OnMoving;
+        public delegate void SetDirection(int sender);
+        public event SetDirection PickDirection;
+        //public event EventHandler OnMoving = (sender, e) => { };
+
         int shootCd;
         int countShootCd;
         private PacmanController contrl;
         private Image pic = AllGameImages.heroTank;
         private Rectangle[] rects = { new Rectangle(0, 3, 45, 45), new Rectangle(191,0,45,45), new Rectangle(100, 0, 45, 45), new Rectangle(285,0,45,45) };
-        private Rectangle toDrawRect;
 
-        public KolobokView(PacmanController contrl)
+        public KolobokView()
         {
-            this.contrl = contrl;
+
         }
 
         public void KeyNotPressed(object sender, KeyEventArgs e)
@@ -60,22 +65,22 @@ namespace Tanks.VL.ViewLayer.game_objects
         {
             if (!upPressed && e.KeyCode == Keys.W)
             {
-                Direction = (int)EnumDirections.Direction.UP;
+                ChooseDirection(EnumDirections.Direction.UP);
                 upPressed = true;
             }
             else if (!downPressed && e.KeyCode == Keys.S)
             {
-                Direction = (int)EnumDirections.Direction.DOWN;
+                ChooseDirection(EnumDirections.Direction.DOWN);
                 downPressed = true;
             }
             else if (!leftPressed && e.KeyCode == Keys.A)
             {
-                Direction = (int)EnumDirections.Direction.LEFT;
+                ChooseDirection(EnumDirections.Direction.LEFT);
                 leftPressed = true;
             }
             else if (!rightPressed && e.KeyCode == Keys.D)
             {
-                Direction = (int)EnumDirections.Direction.RIGHT;
+                ChooseDirection(EnumDirections.Direction.RIGHT);
                 rightPressed = true;
             }
 
@@ -92,34 +97,34 @@ namespace Tanks.VL.ViewLayer.game_objects
                 case (int)EnumDirections.Direction.UP:
                     if (upPressed)
                     {
-                        contrl.moveUp();
+                        // Dispatch the 'on moved' event
+                        OnMoving(this, EventArgs.Empty);
                     }
                     break;
                 case (int)EnumDirections.Direction.DOWN:
                     if (downPressed)
                     {
-                        contrl.moveDown();
+                        OnMoving(this, EventArgs.Empty);
                     }
                     break;
                 case (int)EnumDirections.Direction.LEFT:
                     if (leftPressed)
                     {
-                        contrl.moveLeft();
+                        OnMoving(this, EventArgs.Empty);
                     }
                     break;
                 case (int)EnumDirections.Direction.RIGHT:
                     if (rightPressed)
                     {
-                        contrl.moveRight();
+                        OnMoving(this, EventArgs.Empty);
                     }
                     break;
                 default :
                     throw (new ArgumentException("No such argument!"));
             }
-            contrl.SetDirection(Direction);
         }
 
-        public void MoveYourSelf(Graphics g)
+        public void DrawYourSelf(Graphics g)
         {
             g.DrawImage(AllGameImages.all_sprites, Position.X, Position.Y, rects[Direction],GraphicsUnit.Pixel);
         }
@@ -132,9 +137,9 @@ namespace Tanks.VL.ViewLayer.game_objects
             }
         }
 
-        public void ChooseDirection()
+        public void ChooseDirection(EnumDirections.Direction dir)
         {
-            throw new NotImplementedException();
+            PickDirection((int)dir);
         }
 
         //private void DrawExample()

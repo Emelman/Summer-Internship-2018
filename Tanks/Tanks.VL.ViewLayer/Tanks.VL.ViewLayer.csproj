@@ -48,17 +48,20 @@
   <ItemGroup>
     <Compile Include="AllGameImages.cs" />
     <Compile Include="controller\EnemyController.cs" />
+    <Compile Include="controller\EnemyControllerFactory.cs" />
     <Compile Include="controller\PacmanController.cs" />
     <Compile Include="EnumDirections.cs" />
-    <Compile Include="EnemyProcessor.cs" />
+    <Compile Include="game_models\Brick_model.cs" />
     <Compile Include="game_models\Enemy_model.cs" />
     <Compile Include="game_models\Kolobok_model.cs" />
     <Compile Include="game_models\Level_model.cs" />
-    <Compile Include="game_objects\Brick.cs" />
+    <Compile Include="game_objects\BrickView.cs" />
     <Compile Include="game_objects\Bullet.cs" />
-    <Compile Include="game_objects\Enemy.cs" />
+    <Compile Include="game_objects\TankView.cs" />
     <Compile Include="game_objects\GameObject.cs" />
     <Compile Include="game_objects\KolobokView.cs" />
+    <Compile Include="IEnemyController.cs" />
+    <Compile Include="IEnemyControllerFactory.cs" />
     <Compile Include="IMoving.cs" />
     <Compile Include="MainStage.cs">
       <SubType>Form</SubType>
