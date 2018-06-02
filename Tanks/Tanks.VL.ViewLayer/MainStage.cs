@@ -20,9 +20,6 @@ namespace Tanks.VL.ViewLayer
         Bitmap drawStage;
 
         PacmanController contrl;
-        List<EnemyController> foeControls;
-
-        Level_model lvlModel;
 
         KolobokView hero;
         List<TankView> enemyToDraw;
@@ -31,44 +28,38 @@ namespace Tanks.VL.ViewLayer
 
         public MainStage(string[] args)
         {
-            initGameStates(args);
+            InitGameStates(args);
             InitializeComponent();
             this.Size = new Size(int.Parse(args[0])+17, int.Parse(args[1])+40);
         }
 
-        private void initGameStates(string[] args)
+        private void InitGameStates(string[] args)
         {
-            initModel(args);
-            initView();
-            initControllers();
-            initGraphics(args);
+            InitGameObjects(args);
+            InitGraphics(args);
             StartGameUpdateLogick();
         }
 
-        private void initModel(string[] args)
+        private void InitGameObjects(string[] args)
         {
-            lvlModel = new Level_model(int.Parse(args[2]), int.Parse(args[3]), int.Parse(args[4]));
-        }
-
-        private void initView()
-        {
+            contrl = new PacmanController(args);
             hero = new KolobokView();
-            enemyToDraw = lvlModel.GetEnemyViewModels();
-        }
-
-        private void initControllers()
-        {
-            contrl = new PacmanController(lvlModel.Hero, hero);
-            var enenmyModels = lvlModel.GetEnemy_Models();
-            foeControls = new List<EnemyController>();
-            for(var i=0; i < enemyToDraw.Count; i++)
+            contrl.InitHeroViewEvents(hero);
+            enemyToDraw = new List<TankView>();
+            var enenmyModels = contrl.GetEnemy_Models();
+            for (var i = 0; i < enenmyModels.Count; i++)
             {
-                var ctrl = new EnemyController(enenmyModels[i], enemyToDraw[i]);
-                foeControls.Add(ctrl);
+                var enemy = enenmyModels[i];
+                TankView foe = new TankView();
+                foe.Id = enemy.GetId;
+                foe.Direction = enemy.Direction;
+                foe.Position = enemy.Position;
+                foe.Square = enemy.Square;
+                contrl.InitEnemyViewEvents(foe);
+                enemyToDraw.Add(foe);
             }
         }
-
-        private void initGraphics(string[] args)
+        private void InitGraphics(string[] args)
         {
             //draw scene 
             mainStageBox = new PictureBox();
@@ -95,19 +86,23 @@ namespace Tanks.VL.ViewLayer
 
         private void update()
         {
-            contrl.Update();
-            
+            hero.UpdateLogick();
+            hero.ReadModel(contrl.GetHeroModel());
             for (var i = 0; i < enemyToDraw.Count; i++)
             {
                 enemyToDraw[i].UpdateLogick();
+                enemyToDraw[i].ReadModel(contrl.GetEnemyById(enemyToDraw[i].Id));
             }
-            for(var i = 0; i < foeControls.Count; i++)
+            for(var i = 0; i < enemyToDraw.Count; i++)
             {
-                for(var j = 0; j < foeControls.Count; j++)
+                //if (contrl.CheckCollision(contrl.GetHeroModel(), contrl.GetEnemyById(enemyToDraw[i].Id)))
+                //{
+                //    ServiceLib.WarningMessage("GAME OVER!", "Warning", MessageBoxButtons.OK);
+                //}
+                for(var j = i+1; j < enemyToDraw.Count; j++)
                 {
-                    if (foeControls[i].CheckCollision(foeControls[j].EnemyModelPosition()))
+                    if (contrl.CheckCollision(contrl.GetEnemyById(enemyToDraw[i].Id), contrl.GetEnemyById(enemyToDraw[j].Id)))
                     {
-                        foeControls[j].SwitchDirection();
                         break;
                     }
                 }
@@ -138,5 +133,7 @@ namespace Tanks.VL.ViewLayer
         {
             hero.KeyNotPressed(sender, e);
         }
+
+        
     }
 }

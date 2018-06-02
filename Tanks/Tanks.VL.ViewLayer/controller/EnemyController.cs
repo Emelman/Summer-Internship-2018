@@ -10,7 +10,7 @@ using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.controller
 {
-    class EnemyController: IEnemyController, IMoving
+    public class EnemyController: IEnemyController, IMoving
     {
         private Enemy_model model;
         private TankView view;
@@ -37,9 +37,9 @@ namespace Tanks.VL.ViewLayer.controller
             view.Position = model.Position;
         }
 
-        private void ModelChangeDirection(int sender)
+        private void ModelChangeDirection(DataTransfer e)
         {
-            model.SetDirection(sender);
+            //model.SetDirection(sender);
         }
         private void ModelCHangePosition(TankView sender, EventArgs e)
         {
@@ -156,5 +156,29 @@ namespace Tanks.VL.ViewLayer.controller
             
         }
 
+        public void InitEnemyViewEvents(TankView view)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Point MoveUp(Core_model model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Point MoveDown(Core_model model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Point MoveLeft(Core_model model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Point MoveRight(Core_model model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

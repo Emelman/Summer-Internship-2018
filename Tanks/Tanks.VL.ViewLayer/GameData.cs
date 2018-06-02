@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tanks.VL.ViewLayer.game_models;
 using Tanks.VL.ViewLayer.game_objects;
 using Tanks.VL.ViewLayer.Interfaces;
 
-namespace Tanks.VL.ViewLayer.game_models
+namespace Tanks.VL.ViewLayer
 {
-    class Level_model
+    public class GameData:IData
     {
         private List<Enemy_model> enemies;
         private List<BulletModel> bullets;
@@ -18,9 +19,7 @@ namespace Tanks.VL.ViewLayer.game_models
         private Kolobok_model hero;
         private Random rnd = new Random();
 
-        public Kolobok_model Hero { get => hero; set => hero = value; }
-
-        public Level_model(int tankNum, int _app,int speed)
+        public GameData(int tankNum, int _app,int speed)
         {
             enemies = new List<Enemy_model>();
             apples = new List<Apple_model>();
@@ -58,33 +57,27 @@ namespace Tanks.VL.ViewLayer.game_models
             model.Direction = (int)EnumDirections.Direction.UP;
             model.Speed = speed;
             model.Position = new Point(300, 450);
-            Hero = model;
+            hero = model;
         }
-        public List<TankView> GetEnemyViewModels()
-        {
-            var viewEnemys = new List<TankView>();
-            for(var i=0; i < enemies.Count; i++)
-            {
-                var enemy = enemies[i] ;
-                TankView foe = new TankView();
-                foe.Id = enemy.GetId;
-                foe.Direction = enemy.Direction;
-                foe.Position = enemy.Position;
-                foe.Square = enemy.Square;
-                viewEnemys.Add(foe);
-            }
-            return viewEnemys;
-        }
+        //public List<TankView> GetEnemyViewModels()
+        //{
+        //    var viewEnemys = new List<TankView>();
+        //    for(var i=0; i < enemies.Count; i++)
+        //    {
+        //        var enemy = enemies[i] ;
+        //        TankView foe = new TankView();
+        //        foe.Id = enemy.GetId;
+        //        foe.Direction = enemy.Direction;
+        //        foe.Position = enemy.Position;
+        //        foe.Square = enemy.Square;
+        //        viewEnemys.Add(foe);
+        //    }
+        //    return viewEnemys;
+        //}
 
         public List<Enemy_model> GetEnemy_Models()
         {
             return enemies;
-        }
-
-        public Enemy_model GetEnemy(int id)
-        {
-            var foe = enemies.Find(item => item.GetId == id);
-            return foe;
         }
 
         public void UpdateEnemysLogik()
@@ -92,7 +85,15 @@ namespace Tanks.VL.ViewLayer.game_models
 
         }
 
-        
+        public Enemy_model GetEnemyById(int id)
+        {
+            var foe = enemies.Find(item => item.GetId == id);
+            return foe;
+        }
 
+        public Kolobok_model GetHeroModel()
+        {
+            return hero;
+        }
     }
 }

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks.VL.ViewLayer.game_models;
-using Tanks.VL.ViewLayer.game_objects;
 
 namespace Tanks.VL.ViewLayer.Interfaces
 {
-    public interface IEnemyController
+    public interface IData
     {
-        void InitEnemyViewEvents(TankView view);
+        List<Enemy_model> GetEnemy_Models();
+        Enemy_model GetEnemyById(int id);
+
+        Kolobok_model GetHeroModel();
     }
 }

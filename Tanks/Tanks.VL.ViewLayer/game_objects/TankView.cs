@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks.VL.ViewLayer.controller;
+using Tanks.VL.ViewLayer.game_models;
 using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.game_objects
 {
-    class TankView : GameObject, ICommonAbilitys
+    public class TankView : GameObject, IViewObjectsCommon
     {
         public delegate void StartMoving(TankView sender, EventArgs e);
         public event StartMoving OnMoving;
-        public delegate void SetDirection(int sender);
+        public delegate void SetDirection(DataTransfer e);
         public event SetDirection PickDirection;
 
         int stepCD;
@@ -67,7 +68,7 @@ namespace Tanks.VL.ViewLayer.game_objects
             {
                 stepCD = 0;
                 maxCD = ServiceLib.GetRandomNumber(1, 10) * 4;
-                PickDirection(ServiceLib.GetRandomNumber(0, 4));
+                PickDirection(new DataTransfer(Id, ServiceLib.GetRandomNumber(0, 4)));
             }
             else
             {
@@ -88,7 +89,13 @@ namespace Tanks.VL.ViewLayer.game_objects
         public void ChooseDirection(EnumDirections.Direction dir)
         {
             maxCD = ServiceLib.GetRandomNumber(1, 10) * 4;
-            PickDirection((int)dir);
+            PickDirection(new DataTransfer(Id,(int)dir));
+        }
+
+        public void ReadModel(Core_model model)
+        {
+            Direction = model.Direction;
+            Position = model.Position;
         }
     }
 }

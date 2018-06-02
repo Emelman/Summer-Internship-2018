@@ -8,11 +8,9 @@ using Tanks.VL.ViewLayer.game_models;
 
 namespace Tanks.VL.ViewLayer.Interfaces
 {
-    public interface IMoving
+    public interface IController
     {
-        Point MoveUp(Core_model model);
-        Point MoveDown(Core_model model);
-        Point MoveLeft(Core_model model);
-        Point MoveRight(Core_model model);
+        void DirectionChanged(Core_model model, int direction);
+        void PositionChanged(Point pt);
     }
 }

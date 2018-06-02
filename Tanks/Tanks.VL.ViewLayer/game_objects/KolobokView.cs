@@ -12,7 +12,7 @@ using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.game_objects
 {
-    public class KolobokView : GameObject, ICommonAbilitys
+    public class KolobokView : GameObject, IViewObjectsCommon
     {
         public static Boolean upPressed = false;
         public static Boolean downPressed = false;
@@ -28,13 +28,13 @@ namespace Tanks.VL.ViewLayer.game_objects
 
         int shootCd;
         int countShootCd;
-        private PacmanController contrl;
         private Image pic = AllGameImages.heroTank;
         private Rectangle[] rects = { new Rectangle(0, 3, 45, 45), new Rectangle(191,0,45,45), new Rectangle(100, 0, 45, 45), new Rectangle(285,0,45,45) };
 
         public KolobokView()
         {
-
+            shootCd = 0;
+            countShootCd = 30;
         }
 
         public void KeyNotPressed(object sender, KeyEventArgs e)
@@ -93,6 +93,17 @@ namespace Tanks.VL.ViewLayer.game_objects
 
         public void UpdateLogick()
         {
+            MoveToDirection();
+        }
+
+        public void ReadModel(Core_model model)
+        {
+            Direction = model.Direction;
+            Position = model.Position;
+        }
+
+        private void MoveToDirection()
+        {
             switch (Direction)
             {
                 case (int)EnumDirections.Direction.UP:
@@ -120,7 +131,7 @@ namespace Tanks.VL.ViewLayer.game_objects
                         OnMoving(this, EventArgs.Empty);
                     }
                     break;
-                default :
+                default:
                     throw (new ArgumentException("No such argument!"));
             }
         }
@@ -134,7 +145,12 @@ namespace Tanks.VL.ViewLayer.game_objects
         {
             if(shootCd <= countShootCd)
             {
+                shootCd = 0;
                 Bullet piu = new Bullet();
+            }
+            else
+            {
+                shootCd++;
             }
         }
 

@@ -9,7 +9,7 @@ using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.game_models
 {
-    class Enemy_model: Core_model
+    public class Enemy_model: Core_model
     {
         public event EventHandler OnDirectionChanged = (sender, e) => { };
         public event EventHandler OnPositionChanged = (sender, e) => { };
