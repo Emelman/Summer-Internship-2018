@@ -96,10 +96,13 @@ namespace Tanks.VL.ViewLayer.game_objects
             MoveToDirection();
         }
 
-        public void ReadModel(Core_model model)
+        public void ReadPositionFromModel(DataTransfer e)
         {
-            Direction = model.Direction;
-            Position = model.Position;
+            Position = e.Position;
+        }
+        public void ReadDirectionFromModel(DataTransfer e)
+        {
+            Direction = e.Direction;
         }
 
         private void MoveToDirection()
@@ -158,6 +161,8 @@ namespace Tanks.VL.ViewLayer.game_objects
         {
             PickDirection((int)dir);
         }
+
+        
 
         //private void DrawExample()
         //{

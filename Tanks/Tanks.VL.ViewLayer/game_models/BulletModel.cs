@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tanks.VL.ViewLayer.game_models
 {
-    class BulletModel
+    public class BulletModel
     {
     }
 }

@@ -8,7 +8,7 @@ using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.game_models
 {
-    public abstract class Core_model:IModel
+    public abstract class CoreModel:IModel
     {
         private int id;
         protected Point position;
@@ -22,9 +22,5 @@ namespace Tanks.VL.ViewLayer.game_models
         abstract public int Direction { get; set; }
         public int GetId { get => id; set => id = value; }
 
-        public void callSomething()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

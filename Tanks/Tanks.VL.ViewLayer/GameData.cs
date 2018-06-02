@@ -12,25 +12,25 @@ namespace Tanks.VL.ViewLayer
 {
     public class GameData:IData
     {
-        private List<Enemy_model> enemies;
+        private List<EnemyModel> enemies;
         private List<BulletModel> bullets;
-        private List<Brick_model> bricks;
-        private List<Apple_model> apples;
-        private Kolobok_model hero;
+        private List<BrickModel> bricks;
+        private List<AppleModel> apples;
+        private KolobokModel hero;
         private Random rnd = new Random();
 
         public GameData(int tankNum, int _app,int speed)
         {
-            enemies = new List<Enemy_model>();
-            apples = new List<Apple_model>();
-            bricks = new List<Brick_model>();
+            enemies = new List<EnemyModel>();
+            apples = new List<AppleModel>();
+            bricks = new List<BrickModel>();
             bullets = new List<BulletModel>();
             for (var i = 0; i < tankNum; i++)
             {
-                Enemy_model enemy = new Enemy_model();
+                EnemyModel enemy = new EnemyModel();
                 enemy.Direction = ServiceLib.GetRandomNumber(0, 4);
                 enemy.Speed = speed;
-                enemy.Position = new Point(0 + i * 50, 0 + i*50);
+                enemy.Position = new Point(0 + i * 70, 0);
                 enemy.Square = new Size(45, 45);
                 var maxId = 0;
                 var ids = enemies.Select(u => u.GetId);
@@ -43,41 +43,62 @@ namespace Tanks.VL.ViewLayer
             }
             for(var i=0; i < _app; i++)
             {
-                Apple_model apple = new Apple_model();
+                AppleModel apple = new AppleModel();
                 apples.Add(apple);
             }
 
-            for(var i=0; i < 20; i++)
+            int count = 0;
+            int raw = 1;
+            for(var i=0; i < 30; i++)
             {
-                Brick_model wall = new Brick_model();
+                BrickModel wall = new BrickModel();
+                wall.Position = new Point(80 + 50 * count, 60 * raw);
+                wall.Square = new Size(50, 50);
+                var maxId = 0;
+                var ids = bricks.Select(u => u.GetId);
+                if (ids.Count() != 0)
+                {
+                    maxId = ids.Max();
+                }
+                wall.GetId = maxId + 1;
                 bricks.Add(wall);
+                if (count == 8)
+                {
+                    count = 0;
+                    raw += 3;
+                }
+                else count++;
             }
 
-            Kolobok_model model = new Kolobok_model();
+            KolobokModel model = new KolobokModel();
             model.Direction = (int)EnumDirections.Direction.UP;
             model.Speed = speed;
             model.Position = new Point(300, 450);
+            model.Square = new Size(45, 45);
             hero = model;
         }
-        //public List<TankView> GetEnemyViewModels()
-        //{
-        //    var viewEnemys = new List<TankView>();
-        //    for(var i=0; i < enemies.Count; i++)
-        //    {
-        //        var enemy = enemies[i] ;
-        //        TankView foe = new TankView();
-        //        foe.Id = enemy.GetId;
-        //        foe.Direction = enemy.Direction;
-        //        foe.Position = enemy.Position;
-        //        foe.Square = enemy.Square;
-        //        viewEnemys.Add(foe);
-        //    }
-        //    return viewEnemys;
-        //}
 
-        public List<Enemy_model> GetEnemy_Models()
+        public List<EnemyModel> GetEnemyModels()
         {
             return enemies;
+        }
+        public List<BrickModel> GetBricksModels()
+        {
+            return bricks;
+        }
+        public List<AppleModel> GetApplesModels()
+        {
+            return apples;
+        }
+        public EnemyModel GetEnemyById(int id)
+        {
+            var foe = enemies.Find(item => item.GetId == id);
+            return foe;
+        }
+
+        public KolobokModel GetHeroModel()
+        {
+            return hero;
         }
 
         public void UpdateEnemysLogik()
@@ -85,15 +106,15 @@ namespace Tanks.VL.ViewLayer
 
         }
 
-        public Enemy_model GetEnemyById(int id)
+        public List<BulletModel> GetBulletsModels()
         {
-            var foe = enemies.Find(item => item.GetId == id);
-            return foe;
+            return bullets;
         }
 
-        public Kolobok_model GetHeroModel()
+        public BrickModel GetBrickById(int id)
         {
-            return hero;
+            var brick = bricks.Find(item => item.GetId == id);
+            return brick;
         }
     }
 }

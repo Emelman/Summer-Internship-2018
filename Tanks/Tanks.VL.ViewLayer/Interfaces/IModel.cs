@@ -9,6 +9,5 @@ namespace Tanks.VL.ViewLayer.Interfaces
     public interface IModel
     {
         int GetId { get; set; }
-        void callSomething();
     }
 }

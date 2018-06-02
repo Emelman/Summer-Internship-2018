@@ -47,16 +47,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllGameImages.cs" />
-    <Compile Include="controller\EnemyController.cs" />
     <Compile Include="controller\PacmanController.cs" />
     <Compile Include="DataTransfer.cs" />
     <Compile Include="EnumDirections.cs" />
-    <Compile Include="game_models\Apple_model.cs" />
-    <Compile Include="game_models\Brick_model.cs" />
+    <Compile Include="game_models\AppleModel.cs" />
+    <Compile Include="game_models\BrickModel.cs" />
     <Compile Include="game_models\BulletModel.cs" />
-    <Compile Include="game_models\Core_model.cs" />
-    <Compile Include="game_models\Enemy_model.cs" />
-    <Compile Include="game_models\Kolobok_model.cs" />
+    <Compile Include="game_models\CoreModel.cs" />
+    <Compile Include="game_models\EnemyModel.cs" />
+    <Compile Include="game_models\KolobokModel.cs" />
     <Compile Include="GameData.cs" />
     <Compile Include="game_objects\BrickView.cs" />
     <Compile Include="game_objects\Bullet.cs" />

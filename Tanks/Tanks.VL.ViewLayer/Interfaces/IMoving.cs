@@ -10,9 +10,9 @@ namespace Tanks.VL.ViewLayer.Interfaces
 {
     public interface IMoving
     {
-        Point MoveUp(Core_model model);
-        Point MoveDown(Core_model model);
-        Point MoveLeft(Core_model model);
-        Point MoveRight(Core_model model);
+        Point MoveUp(CoreModel model);
+        Point MoveDown(CoreModel model);
+        Point MoveLeft(CoreModel model);
+        Point MoveRight(CoreModel model);
     }
 }

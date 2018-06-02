@@ -19,10 +19,11 @@ namespace Tanks.VL.ViewLayer
         PictureBox mainStageBox;
         Bitmap drawStage;
 
-        PacmanController contrl;
+        PacmanController control;
 
         KolobokView hero;
         List<TankView> enemyToDraw;
+        List<BrickView> wallToDraw;
 
         Timer gameTimer;
 
@@ -42,11 +43,12 @@ namespace Tanks.VL.ViewLayer
 
         private void InitGameObjects(string[] args)
         {
-            contrl = new PacmanController(args);
+            control = new PacmanController(args);
             hero = new KolobokView();
-            contrl.InitHeroViewEvents(hero);
+            control.InitHeroViewEvents(hero);
             enemyToDraw = new List<TankView>();
-            var enenmyModels = contrl.GetEnemy_Models();
+            wallToDraw = new List<BrickView>();
+            var enenmyModels = control.GetEnemyModels();
             for (var i = 0; i < enenmyModels.Count; i++)
             {
                 var enemy = enenmyModels[i];
@@ -55,8 +57,19 @@ namespace Tanks.VL.ViewLayer
                 foe.Direction = enemy.Direction;
                 foe.Position = enemy.Position;
                 foe.Square = enemy.Square;
-                contrl.InitEnemyViewEvents(foe);
+                control.InitEnemyViewEvents(foe);
                 enemyToDraw.Add(foe);
+            }
+
+            var brickModels = control.GetBricksModels();
+            for(var i = 0; i < brickModels.Count; i++)
+            {
+                var brick = brickModels[i];
+                BrickView wall = new BrickView();
+                wall.Id = brick.GetId;
+                wall.Position = brick.Position;
+                wall.Square = brick.Square;
+                wallToDraw.Add(wall);
             }
         }
         private void InitGraphics(string[] args)
@@ -71,12 +84,12 @@ namespace Tanks.VL.ViewLayer
         private void StartGameUpdateLogick()
         {
             gameTimer = new Timer();
-            gameTimer.Tick += new EventHandler(gameUpdate);
+            gameTimer.Tick += new EventHandler(GameUpdate);
             gameTimer.Interval = 17;
             gameTimer.Start();
         }
 
-        private void gameUpdate(Object sender, EventArgs e)
+        private void GameUpdate(Object sender, EventArgs e)
         {
             gameTimer.Stop();
             update();
@@ -87,21 +100,65 @@ namespace Tanks.VL.ViewLayer
         private void update()
         {
             hero.UpdateLogick();
-            hero.ReadModel(contrl.GetHeroModel());
             for (var i = 0; i < enemyToDraw.Count; i++)
             {
                 enemyToDraw[i].UpdateLogick();
-                enemyToDraw[i].ReadModel(contrl.GetEnemyById(enemyToDraw[i].Id));
             }
-            for(var i = 0; i < enemyToDraw.Count; i++)
+            for (var i = 0; i < wallToDraw.Count; i++)
             {
-                //if (contrl.CheckCollision(contrl.GetHeroModel(), contrl.GetEnemyById(enemyToDraw[i].Id)))
+                if(ServiceLib.CheckWallCollision(control.GetHeroModel(), control.GetBrickById(wallToDraw[i].Id)))
+                {
+                    if(hero.Position.X > wallToDraw[i].Position.X)
+                    {
+                        if (hero.Position.Y > wallToDraw[i].Position.Y)
+                        {
+                            if (wallToDraw[i].Position.X + wallToDraw[i].Square.Width - hero.Position.X > wallToDraw[i].Position.Y + wallToDraw[i].Square.Height - hero.Position.Y)
+                            {
+
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        if (hero.Position.Y > wallToDraw[i].Position.Y)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+            }
+
+            for (var i = 0; i < enemyToDraw.Count; i++)
+            {
+                //if (ServiceLib.CheckCollision(control.GetHeroModel(), control.GetEnemyById(enemyToDraw[i].Id)))
                 //{
                 //    ServiceLib.WarningMessage("GAME OVER!", "Warning", MessageBoxButtons.OK);
                 //}
-                for(var j = i+1; j < enemyToDraw.Count; j++)
+                for (var j = i+1; j < enemyToDraw.Count; j++)
                 {
-                    if (contrl.CheckCollision(contrl.GetEnemyById(enemyToDraw[i].Id), contrl.GetEnemyById(enemyToDraw[j].Id)))
+                    if (ServiceLib.CheckCollision(control.GetEnemyById(enemyToDraw[i].Id), 
+                        control.GetEnemyById(enemyToDraw[j].Id)))
+                    {
+                        break;
+                    }
+                }
+
+                for (var m = 0; m < wallToDraw.Count; m++) 
+                {
+                    if (ServiceLib.CheckWallCollision(control.GetEnemyById(enemyToDraw[i].Id), 
+                        control.GetBrickById(wallToDraw[m].Id)))
                     {
                         break;
                     }
@@ -119,6 +176,10 @@ namespace Tanks.VL.ViewLayer
                 {
                     enemyToDraw[i].DrawYourSelf(g);
                 }
+                for (var i = 0; i < wallToDraw.Count; i++)
+                {
+                    wallToDraw[i].DrawYourSelf(g);
+                }
                 hero.DrawYourSelf(g);
             }
             mainStageBox.Image = drawStage;
@@ -133,7 +194,5 @@ namespace Tanks.VL.ViewLayer
         {
             hero.KeyNotPressed(sender, e);
         }
-
-        
     }
 }

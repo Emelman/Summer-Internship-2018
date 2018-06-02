@@ -25,6 +25,10 @@ namespace Tanks.VL.ViewLayer.controller
         {
             view.OnMoving += ModelCHangePosition;
             view.PickDirection += ModelChangeDirection;
+            var model = globalModel.GetHeroModel();
+            model.OnDirectionChanged += view.ReadDirectionFromModel;
+            model.OnPositionChanged += view.ReadPositionFromModel;
+            view.ReadPositionFromModel(new DataTransfer(model.GetId, model.Direction, model.Position));
         }
 
         private void ModelChangeDirection(int sender)
@@ -60,7 +64,7 @@ namespace Tanks.VL.ViewLayer.controller
         }
 
 
-        public Point MoveUp(Core_model model)
+        public Point MoveUp(CoreModel model)
         {
             var pt = model.Position;
             pt.Y -= model.Speed;
@@ -72,7 +76,7 @@ namespace Tanks.VL.ViewLayer.controller
             return pt;
         }
 
-        public Point MoveDown(Core_model model)
+        public Point MoveDown(CoreModel model)
         {
             var pt = model.Position;
             pt.Y += model.Speed;
@@ -84,7 +88,7 @@ namespace Tanks.VL.ViewLayer.controller
             return pt;
         }
 
-        public Point MoveLeft(Core_model model)
+        public Point MoveLeft(CoreModel model)
         {
             var pt = model.Position;
             pt.X -= model.Speed;
@@ -96,7 +100,7 @@ namespace Tanks.VL.ViewLayer.controller
             return pt;
         }
 
-        public Point MoveRight(Core_model model)
+        public Point MoveRight(CoreModel model)
         {
             var pt = model.Position;
             pt.X += model.Speed;
@@ -108,7 +112,7 @@ namespace Tanks.VL.ViewLayer.controller
             return pt;
         }
 
-        public void DirectionChanged(Core_model model, int direction)
+        public void DirectionChanged(CoreModel model, int direction)
         {
             model.Direction = direction;
         }
@@ -118,17 +122,17 @@ namespace Tanks.VL.ViewLayer.controller
             throw new NotImplementedException();
         }
 
-        public List<Enemy_model> GetEnemy_Models()
+        public List<EnemyModel> GetEnemyModels()
         {
-            return globalModel.GetEnemy_Models();
+            return globalModel.GetEnemyModels();
         }
 
-        public Enemy_model GetEnemyById(int id)
+        public EnemyModel GetEnemyById(int id)
         {
             return globalModel.GetEnemyById(id);
         }
 
-        public Kolobok_model GetHeroModel()
+        public KolobokModel GetHeroModel()
         {
             return globalModel.GetHeroModel();
         }
@@ -139,12 +143,16 @@ namespace Tanks.VL.ViewLayer.controller
         {
             view.OnMoving += GameObjectChangedPosition;
             view.PickDirection += GameObjectChangedDirection;
+            var model = GetEnemyById(view.Id);
+            model.OnDirectionChanged += view.ReadDirectionFromModel;
+            model.OnPositionChanged += view.ReadPositionFromModel;
+            view.ReadPositionFromModel(new DataTransfer(model.GetId, model.Direction, model.Position));
         }
 
         private void GameObjectChangedDirection(DataTransfer e)
         {
-            var model = globalModel.GetEnemyById(e.id);
-            model.SetDirection(e.direction);
+            var model = globalModel.GetEnemyById(e.Id);
+            model.SetDirection(e.Direction);
         }
         private void GameObjectChangedPosition(GameObject sender, EventArgs e)
         {
@@ -168,18 +176,24 @@ namespace Tanks.VL.ViewLayer.controller
             }
         }
 
-        public Boolean CheckCollision(Core_model model1, Core_model model2)
+        public List<BrickModel> GetBricksModels()
         {
-            var rectM1 = new Rectangle(model1.Position, model1.Square);
-            var rectM2 = new Rectangle(model2.Position, model2.Square);
-            if (rectM1.IntersectsWith(rectM2))
-            {
-                DirectionChanged(model1, ServiceLib.SwitchDirection(model1));
-                DirectionChanged(model2, ServiceLib.SwitchDirection(model2)); ///!!!! model1 !?!?!?
-                return true;
-            }
-            return false;
+            return globalModel.GetBricksModels();
         }
-        
+
+        public List<AppleModel> GetApplesModels()
+        {
+            return globalModel.GetApplesModels();
+        }
+
+        public List<BulletModel> GetBulletsModels()
+        {
+            return globalModel.GetBulletsModels();
+        }
+
+        public BrickModel GetBrickById(int id)
+        {
+            return globalModel.GetBrickById(id);
+        }
     }
 }

@@ -9,10 +9,11 @@ using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.game_models
 {
-    public class Enemy_model: Core_model
+    public class EnemyModel: CoreModel
     {
-        public event EventHandler OnDirectionChanged = (sender, e) => { };
-        public event EventHandler OnPositionChanged = (sender, e) => { };
+        public delegate void SetData(DataTransfer e);
+        public event SetData OnDirectionChanged;
+        public event SetData OnPositionChanged;
 
         public override Point Position
         {
@@ -22,11 +23,8 @@ namespace Tanks.VL.ViewLayer.game_models
             }
             set
             {
-                if (position != value)
-                {
-                    position = value;
-                    OnPositionChanged(this, EventArgs.Empty);
-                }
+                position = value;
+                OnPositionChanged?.Invoke(new DataTransfer(GetId, Direction, position));
             }
         }
         public override int Direction
@@ -38,7 +36,7 @@ namespace Tanks.VL.ViewLayer.game_models
             set
             {
                 direction = value;
-                OnDirectionChanged(this, EventArgs.Empty);
+                OnDirectionChanged?.Invoke(new DataTransfer(GetId, direction));
             }
         }
         public void SetDirection(int direct)

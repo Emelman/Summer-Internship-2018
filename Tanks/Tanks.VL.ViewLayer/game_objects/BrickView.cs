@@ -11,7 +11,7 @@ namespace Tanks.VL.ViewLayer.game_objects
 {
     public class BrickView : GameObject, IViewObjectsCommon
     {
-        private Image pic = AllGameImages.enemyTank;
+        private Image pic = AllGameImages.brickWall;
         private Rectangle rect = new Rectangle(770, 0, 50, 50);
         public BrickView()
         {
@@ -28,9 +28,14 @@ namespace Tanks.VL.ViewLayer.game_objects
             g.DrawImage(AllGameImages.all_sprites, Position.X, Position.Y, rect, GraphicsUnit.Pixel);
         }
 
-        public void ReadModel(Core_model model)
+        public void ReadDirectionFromModel(DataTransfer e)
         {
             throw new NotImplementedException();
+        }
+
+        public void ReadPositionFromModel(DataTransfer e)
+        {
+            Position = e.Position;
         }
 
         public void Shoot()

@@ -9,10 +9,11 @@ using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.game_models
 {
-    public class Kolobok_model: Core_model
+    public class KolobokModel: CoreModel
     {
-        public event EventHandler OnDirectionChanged = (sender, e) => { };
-        public event EventHandler OnPositionChanged = (sender, e) => { };
+        public delegate void SetData(DataTransfer e);
+        public event SetData OnDirectionChanged;
+        public event SetData OnPositionChanged;
         override public Point Position
         {
             get
@@ -21,11 +22,8 @@ namespace Tanks.VL.ViewLayer.game_models
             }
             set
             {
-                if (position != value)
-                {
-                    position = value;
-                    OnPositionChanged(this, EventArgs.Empty);
-                }
+                position = value;
+                OnPositionChanged?.Invoke(new DataTransfer(GetId, Direction, position));
             }
         }
         override public int Direction
@@ -33,11 +31,8 @@ namespace Tanks.VL.ViewLayer.game_models
             get => direction;
             set
             {
-                if (direction != value)
-                {
-                    direction = value;
-                    OnDirectionChanged(this, EventArgs.Empty);
-                }
+                direction = value;
+                OnDirectionChanged?.Invoke(new DataTransfer(GetId, direction));
             }
         }
 

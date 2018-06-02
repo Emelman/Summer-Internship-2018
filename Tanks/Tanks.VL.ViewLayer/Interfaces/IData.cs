@@ -9,9 +9,13 @@ namespace Tanks.VL.ViewLayer.Interfaces
 {
     public interface IData
     {
-        List<Enemy_model> GetEnemy_Models();
-        Enemy_model GetEnemyById(int id);
+        List<EnemyModel> GetEnemyModels();
+        List<BrickModel> GetBricksModels();
+        List<AppleModel> GetApplesModels();
+        List<BulletModel> GetBulletsModels();
+        EnemyModel GetEnemyById(int id);
+        BrickModel GetBrickById(int id);
+        KolobokModel GetHeroModel();
 
-        Kolobok_model GetHeroModel();
     }
 }

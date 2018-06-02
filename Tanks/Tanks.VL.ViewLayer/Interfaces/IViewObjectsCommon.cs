@@ -14,7 +14,7 @@ namespace Tanks.VL.ViewLayer.Interfaces
         void DrawYourSelf(Graphics g);
         void Shoot();
         void ChooseDirection(EnumDirections.Direction dir);
-
-        void ReadModel(Core_model model);
+        void ReadPositionFromModel(DataTransfer e);
+        void ReadDirectionFromModel(DataTransfer e);
     }
 }

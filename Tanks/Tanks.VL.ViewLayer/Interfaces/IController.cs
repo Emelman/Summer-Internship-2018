@@ -10,7 +10,7 @@ namespace Tanks.VL.ViewLayer.Interfaces
 {
     public interface IController
     {
-        void DirectionChanged(Core_model model, int direction);
+        void DirectionChanged(CoreModel model, int direction);
         void PositionChanged(Point pt);
     }
 }
