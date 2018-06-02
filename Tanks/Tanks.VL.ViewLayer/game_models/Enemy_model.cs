@@ -5,23 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks.VL.ViewLayer.game_objects;
+using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.game_models
 {
-    class Enemy_model
+    class Enemy_model: Core_model
     {
-        private int id;
-        private Point position;
-        private int direction;
-        private int speed;
-        private Size square;
-
         public event EventHandler OnDirectionChanged = (sender, e) => { };
         public event EventHandler OnPositionChanged = (sender, e) => { };
 
-        public int Id { get => id; set => id = value; }
-        public int Speed { get => speed; set => speed = value; }
-        public Point Position
+        public override Point Position
         {
             get
             {
@@ -36,7 +29,7 @@ namespace Tanks.VL.ViewLayer.game_models
                 }
             }
         }
-        public int Direction
+        public override int Direction
         {
             get
             {
@@ -48,17 +41,14 @@ namespace Tanks.VL.ViewLayer.game_models
                 OnDirectionChanged(this, EventArgs.Empty);
             }
         }
-
-        public Size Square { get => square; set => square = value; }
-
         public void SetDirection(int direct)
         {
             Direction = direct;
         }
-
         public void ChangePosition(Point pt)
         {
             Position = pt;
         }
+
     }
 }

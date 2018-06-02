@@ -48,10 +48,12 @@
   <ItemGroup>
     <Compile Include="AllGameImages.cs" />
     <Compile Include="controller\EnemyController.cs" />
-    <Compile Include="controller\EnemyControllerFactory.cs" />
     <Compile Include="controller\PacmanController.cs" />
     <Compile Include="EnumDirections.cs" />
+    <Compile Include="game_models\Apple_model.cs" />
     <Compile Include="game_models\Brick_model.cs" />
+    <Compile Include="game_models\BulletModel.cs" />
+    <Compile Include="game_models\Core_model.cs" />
     <Compile Include="game_models\Enemy_model.cs" />
     <Compile Include="game_models\Kolobok_model.cs" />
     <Compile Include="game_models\Level_model.cs" />
@@ -60,16 +62,16 @@
     <Compile Include="game_objects\TankView.cs" />
     <Compile Include="game_objects\GameObject.cs" />
     <Compile Include="game_objects\KolobokView.cs" />
-    <Compile Include="IEnemyController.cs" />
-    <Compile Include="IEnemyControllerFactory.cs" />
-    <Compile Include="IMoving.cs" />
+    <Compile Include="Interfaces\IEnemyController.cs" />
+    <Compile Include="Interfaces\IModel.cs" />
+    <Compile Include="Interfaces\IMoving.cs" />
     <Compile Include="MainStage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainStage.Designer.cs">
       <DependentUpon>MainStage.cs</DependentUpon>
     </Compile>
-    <Compile Include="ICommonAbilitys.cs" />
+    <Compile Include="Interfaces\ICommonAbilitys.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLib.cs" />

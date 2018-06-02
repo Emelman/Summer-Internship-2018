@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks.VL.ViewLayer.game_models;
 using Tanks.VL.ViewLayer.game_objects;
+using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.controller
 {
@@ -13,7 +14,6 @@ namespace Tanks.VL.ViewLayer.controller
     {
         private Enemy_model model;
         private TankView view;
-
         public EnemyController(Enemy_model _model, TankView _view)
         {
             model = _model;
@@ -47,15 +47,19 @@ namespace Tanks.VL.ViewLayer.controller
             {
                 case (int)EnumDirections.Direction.UP:
                     model.ChangePosition(MoveUp());
+                    //tempPt = MoveUp();
                     break;
                 case (int)EnumDirections.Direction.DOWN:
                     model.ChangePosition(MoveDown());
+                    //tempPt = MoveDown();
                     break;
                 case (int)EnumDirections.Direction.LEFT:
                     model.ChangePosition(MoveLeft());
+                    //tempPt = MoveLeft();
                     break;
                 case (int)EnumDirections.Direction.RIGHT:
                     model.ChangePosition(MoveRight());
+                    //tempPt = MoveRight();
                     break;
                 default:
                     throw (new ArgumentException("No such direction!"));

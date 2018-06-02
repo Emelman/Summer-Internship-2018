@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tanks.VL.ViewLayer.controller;
 using Tanks.VL.ViewLayer.game_models;
+using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.game_objects
 {

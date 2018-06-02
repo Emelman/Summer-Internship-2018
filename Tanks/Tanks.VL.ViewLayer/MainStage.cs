@@ -103,12 +103,11 @@ namespace Tanks.VL.ViewLayer
             }
             for(var i = 0; i < foeControls.Count; i++)
             {
-                for(var j = i+1; j < foeControls.Count; j++)
+                for(var j = 0; j < foeControls.Count; j++)
                 {
                     if (foeControls[i].CheckCollision(foeControls[j].EnemyModelPosition()))
                     {
                         foeControls[j].SwitchDirection();
-                        i++;
                         break;
                     }
                 }

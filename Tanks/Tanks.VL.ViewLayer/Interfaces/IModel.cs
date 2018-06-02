@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tanks.VL.ViewLayer
+namespace Tanks.VL.ViewLayer.Interfaces
 {
-    public interface IEnemyControllerFactory
+    public interface IModel
     {
-        IEnemyController Controller { get; }
+        int GetId { get; set; }
+        void callSomething();
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tanks.VL.ViewLayer.game_objects;
 
-namespace Tanks.VL.ViewLayer
+namespace Tanks.VL.ViewLayer.Interfaces
 {
     public interface ICommonAbilitys
     {

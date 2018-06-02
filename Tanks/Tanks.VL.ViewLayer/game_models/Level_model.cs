@@ -4,22 +4,28 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tanks.VL.ViewLayer.controller;
 using Tanks.VL.ViewLayer.game_objects;
+using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.game_models
 {
     class Level_model
     {
         private List<Enemy_model> enemies;
-        private List<Bullet> allBullets;
-        private List<BrickView> bricks;
+        private List<BulletModel> bullets;
+        private List<Brick_model> bricks;
+        private List<Apple_model> apples;
         private Kolobok_model hero;
         private Random rnd = new Random();
 
-        public Level_model(int tankNum, int apples,int speed)
+        public Kolobok_model Hero { get => hero; set => hero = value; }
+
+        public Level_model(int tankNum, int _app,int speed)
         {
-            Enemies = new List<Enemy_model>();
+            enemies = new List<Enemy_model>();
+            apples = new List<Apple_model>();
+            bricks = new List<Brick_model>();
+            bullets = new List<BulletModel>();
             for (var i = 0; i < tankNum; i++)
             {
                 Enemy_model enemy = new Enemy_model();
@@ -28,23 +34,24 @@ namespace Tanks.VL.ViewLayer.game_models
                 enemy.Position = new Point(0 + i * 50, 0 + i*50);
                 enemy.Square = new Size(45, 45);
                 var maxId = 0;
-                var ids = Enemies.Select(u => u.Id);
+                var ids = enemies.Select(u => u.GetId);
                 if (ids.Count() != 0)
                 {
                     maxId = ids.Max();
                 }
-                enemy.Id = maxId + 1;
-                Enemies.Add(enemy);
+                enemy.GetId = maxId + 1;
+                enemies.Add(enemy);
             }
-            for(var i=0; i < apples; i++)
+            for(var i=0; i < _app; i++)
             {
-
+                Apple_model apple = new Apple_model();
+                apples.Add(apple);
             }
 
             for(var i=0; i < 20; i++)
             {
                 Brick_model wall = new Brick_model();
-                
+                bricks.Add(wall);
             }
 
             Kolobok_model model = new Kolobok_model();
@@ -53,20 +60,17 @@ namespace Tanks.VL.ViewLayer.game_models
             model.Position = new Point(300, 450);
             Hero = model;
         }
-
-        public Kolobok_model Hero { get => hero; private set => hero = value; }
-        internal List<Enemy_model> Enemies { get => enemies; set => enemies = value; }
-
         public List<TankView> GetEnemyViewModels()
         {
             var viewEnemys = new List<TankView>();
-            for(var i=0; i < Enemies.Count; i++)
+            for(var i=0; i < enemies.Count; i++)
             {
+                var enemy = enemies[i] ;
                 TankView foe = new TankView();
-                foe.Id = Enemies[i].Id;
-                foe.Direction = Enemies[i].Direction;
-                foe.Position = Enemies[i].Position;
-                foe.Square = Enemies[i].Square;
+                foe.Id = enemy.GetId;
+                foe.Direction = enemy.Direction;
+                foe.Position = enemy.Position;
+                foe.Square = enemy.Square;
                 viewEnemys.Add(foe);
             }
             return viewEnemys;
@@ -79,7 +83,7 @@ namespace Tanks.VL.ViewLayer.game_models
 
         public Enemy_model GetEnemy(int id)
         {
-            var foe = enemies.Find(item => item.Id == id);
+            var foe = enemies.Find(item => item.GetId == id);
             return foe;
         }
 

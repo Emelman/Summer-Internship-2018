@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tanks.VL.ViewLayer.controller;
+using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.game_objects
 {
@@ -19,6 +20,8 @@ namespace Tanks.VL.ViewLayer.game_objects
         int maxCD;
         int shootCd;
         int countShootCd;
+        int switchCd;
+        int maxSwithCd;
         private Image pic = AllGameImages.enemyTank;
         private Rectangle[] rects = { new Rectangle(383, 3, 45, 45),
             new Rectangle(575, 0, 45, 45),
@@ -32,6 +35,12 @@ namespace Tanks.VL.ViewLayer.game_objects
         }
 
         public void UpdateLogick()
+        {
+            FollowDirection();
+            TurnRandomDirection();
+        }
+
+        private void FollowDirection()
         {
             switch (Direction)
             {
@@ -50,19 +59,20 @@ namespace Tanks.VL.ViewLayer.game_objects
                 default:
                     throw (new ArgumentException("No such Direction!"));
             }
-
-            if (stepCD >= maxCD)
-            {
-                RandomDirection();
-            }
-            else stepCD++;
         }
 
-        public void RandomDirection()
+        private void TurnRandomDirection()
         {
-            stepCD = 0;
-            maxCD = ServiceLib.GetRandomNumber(1, 10) * 4;
-            PickDirection(ServiceLib.GetRandomNumber(0, 4));
+            if (stepCD >= maxCD)
+            {
+                stepCD = 0;
+                maxCD = ServiceLib.GetRandomNumber(1, 10) * 4;
+                PickDirection(ServiceLib.GetRandomNumber(0, 4));
+            }
+            else
+            {
+                stepCD++;
+            }
         }
 
         public void DrawYourSelf(Graphics g)
@@ -77,7 +87,6 @@ namespace Tanks.VL.ViewLayer.game_objects
 
         public void ChooseDirection(EnumDirections.Direction dir)
         {
-            stepCD = 0;
             maxCD = ServiceLib.GetRandomNumber(1, 10) * 4;
             PickDirection((int)dir);
         }
