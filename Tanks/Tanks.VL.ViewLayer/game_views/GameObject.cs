@@ -13,6 +13,10 @@ namespace Tanks.VL.ViewLayer.game_objects
         private Point position;
         private int direction;
         private Size square;
+        protected int stepCD;
+        protected int maxCD;
+        protected int shootCd;
+        protected int countShootCd;
 
         public int Id { get => id; set => id = value; }
         public Point Position { get => position; set => position = value; }

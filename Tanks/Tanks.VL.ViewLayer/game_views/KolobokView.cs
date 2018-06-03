@@ -18,23 +18,29 @@ namespace Tanks.VL.ViewLayer.game_objects
         public static Boolean downPressed = false;
         public static Boolean leftPressed = false;
         public static Boolean rightPressed = false;
-        public static Boolean shootPressed = false;
+        public static Boolean spacePressed = false;
 
         public delegate void StartMoving(KolobokView sender, EventArgs e);
         public event StartMoving OnMoving;
         public delegate void SetDirection(int sender);
         public event SetDirection PickDirection;
-        //public event EventHandler OnMoving = (sender, e) => { };
 
-        int shootCd;
-        int countShootCd;
+        public delegate void CreateBulletModel(KolobokView sender);
+        public event CreateBulletModel StartShoot;
+
+        public delegate void CreateBulletView(BulletView e);
+        public CreateBulletView SpawnBullet;
+
+        private MainStage main;
         private Image pic = AllGameImages.heroTank;
         private Rectangle[] rects = { new Rectangle(0, 3, 45, 45), new Rectangle(191,0,45,45), new Rectangle(100, 0, 45, 45), new Rectangle(285,0,45,45) };
 
-        public KolobokView()
+        public KolobokView(MainStage _main)
         {
             shootCd = 0;
-            countShootCd = 30;
+            countShootCd = 60;
+            main = _main;
+            SpawnBullet = new CreateBulletView(SpawnBulletView);
         }
 
         public void KeyNotPressed(object sender, KeyEventArgs e)
@@ -56,9 +62,9 @@ namespace Tanks.VL.ViewLayer.game_objects
                 rightPressed = false;
             }
 
-            if (shootPressed && e.KeyCode == Keys.Space)
+            if (spacePressed && e.KeyCode == Keys.Space)
             {
-                shootPressed = false;
+                spacePressed = false;
             }
         }
 
@@ -87,13 +93,14 @@ namespace Tanks.VL.ViewLayer.game_objects
 
             if (e.KeyCode == Keys.Space)
             {
-                shootPressed = true;
+                spacePressed = true;
             }
         }
 
         public void UpdateLogick()
         {
             MoveToDirection();
+            Shoot();
         }
 
         public void ReadPositionFromModel(DataTransfer e)
@@ -146,10 +153,13 @@ namespace Tanks.VL.ViewLayer.game_objects
 
         public void Shoot()
         {
-            if(shootCd <= countShootCd)
+            if(shootCd >= countShootCd)
             {
-                shootCd = 0;
-                Bullet piu = new Bullet();
+                if (spacePressed)
+                {
+                    shootCd = 0;
+                    StartShoot?.Invoke(this);
+                }
             }
             else
             {
@@ -162,41 +172,12 @@ namespace Tanks.VL.ViewLayer.game_objects
             PickDirection((int)dir);
         }
 
-        
-
-        //private void DrawExample()
-        //{
-        //    pictureBox1.Size = new Size(210, 110);
-        //    Bitmap flag = new Bitmap(200, 100);
-        //    Graphics flagGraphics = Graphics.FromImage(flag);
-        //    int red = 0;
-        //    int white = 11;
-        //    while (white <= 100)
-        //    {
-        //        flagGraphics.FillRectangle(Brushes.Red, 0, red, 200, 10);
-        //        flagGraphics.FillRectangle(Brushes.White, 0, white, 200, 10);
-        //        red += 20;
-        //        white += 20;
-        //    }
-        //    pictureBox1.Image = flag;
-        //}
-
-        //public void Example()
-        //{
-        //    using (Image img = Image.FromFile(input))
-        //    {
-        //        //rotate the picture by 90 degrees and re-save the picture as a Jpeg
-        //        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-        //        img.Save(output, System.Drawing.Imaging.ImageFormat.Jpeg);
-        //    }
-
-        //    Bitmap returnBitmap = new Bitmap(b.Height, b.Width);
-        //    Graphics g = Graphics.FromImage(returnBitmap);
-        //    g.TranslateTransform((float)b.Width / 2, (float)b.Height / 2);
-        //    g.RotateTransform(90);
-        //    g.TranslateTransform(-(float)b.Width / 2, -(float)b.Height / 2);
-        //    g.DrawImage(b, new Point(0, 0));
-        //    return returnBitmap;
-        //}
+        public void SpawnBulletView(BulletView bullet)
+        {
+            var bullets = main.BulletsToDraw;
+            main.control.InitBulletsViewEvents(bullet);
+            bullets.Add(bullet);
+            main.BulletsToDraw = bullets;
+        }
     }
 }

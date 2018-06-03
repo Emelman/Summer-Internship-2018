@@ -19,13 +19,17 @@ namespace Tanks.VL.ViewLayer
         PictureBox mainStageBox;
         Bitmap drawStage;
 
-        PacmanController control;
+        public PacmanController control;
 
-        KolobokView hero;
+        KolobokView heroToDraw;
         List<TankView> enemyToDraw;
         List<BrickView> wallToDraw;
+        List<BulletView> bulletsToDraw;
+        List<AppleView> applesToDraw;
 
         Timer gameTimer;
+
+        public List<BulletView> BulletsToDraw { get => bulletsToDraw; set => bulletsToDraw = value; }
 
         public MainStage(string[] args)
         {
@@ -44,15 +48,18 @@ namespace Tanks.VL.ViewLayer
         private void InitGameObjects(string[] args)
         {
             control = new PacmanController(args);
-            hero = new KolobokView();
-            control.InitHeroViewEvents(hero);
+            heroToDraw = new KolobokView(this);
+            control.InitHeroViewEvents(heroToDraw);
             enemyToDraw = new List<TankView>();
             wallToDraw = new List<BrickView>();
+            bulletsToDraw = new List<BulletView>();
+            applesToDraw = new List<AppleView>();
+
             var enenmyModels = control.GetEnemyModels();
             for (var i = 0; i < enenmyModels.Count; i++)
             {
                 var enemy = enenmyModels[i];
-                TankView foe = new TankView();
+                TankView foe = new TankView(this);
                 foe.Id = enemy.GetId;
                 foe.Direction = enemy.Direction;
                 foe.Position = enemy.Position;
@@ -89,30 +96,80 @@ namespace Tanks.VL.ViewLayer
             gameTimer.Start();
         }
 
+        private void StopGameUpdateLogick()
+        {
+            gameTimer.Stop();
+            gameTimer.Tick -= GameUpdate;
+        }
+
         private void GameUpdate(Object sender, EventArgs e)
         {
             gameTimer.Stop();
-            update();
-            render();
+            UpdateFromModel();
+            GameCollisions();
+            Render();
             gameTimer.Start();
         }
-
-        private void update()
+        private void UpdateFromModel()
         {
-            hero.UpdateLogick();
+            heroToDraw.UpdateLogick();
             for (var i = 0; i < enemyToDraw.Count; i++)
             {
                 enemyToDraw[i].UpdateLogick();
             }
+            for(var i = 0; i < bulletsToDraw.Count; i++)
+            {
+                bulletsToDraw[i].Update();
+            }
+        }
+        private void GameCollisions()
+        {
+            for (var i = 0; i < enemyToDraw.Count; i++)
+            {
+                //hero colision test with enemys
+                var enemyToCheck = control.GetEnemyById(enemyToDraw[i].Id);
+                if (CollisionTests.CheckCollision(control.GetHeroModel(), enemyToCheck))
+                {
+                    ServiceLib.WarningMessage("GAME OVER!", "Warning", MessageBoxButtons.OK);
+                }
+                //enemy collision test with each other
+                for (var j = i + 1; j < enemyToDraw.Count; j++)
+                {
+                    if (CollisionTests.CheckCollision(enemyToCheck,
+                        control.GetEnemyById(enemyToDraw[j].Id)))
+                    {
+                        break;
+                    }
+                }
+
+                for (var f = 0; f < bulletsToDraw.Count; f++)
+                {
+                    if (!bulletsToDraw[f].isEnemyBullet)
+                    {
+                        if (CollisionTests.CheckBulletCollsion(control.GetBulletById(bulletsToDraw[f].Id),
+                            enemyToCheck))
+                        {
+                            control.DeleteEnemy(enemyToDraw[i].Id);
+                            control.DeleteBullet(bulletsToDraw[f].Id);
+                            enemyToDraw.Remove(enemyToDraw[i]);
+                            bulletsToDraw.Remove(bulletsToDraw[f]);
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+
             for (var i = 0; i < wallToDraw.Count; i++)
             {
-                if(ServiceLib.CheckWallCollision(control.GetHeroModel(), control.GetBrickById(wallToDraw[i].Id)))
+                if (CollisionTests.CheckHeroWallCollision(control.GetHeroModel(), control.GetBrickById(wallToDraw[i].Id)))
                 {
-                    if(hero.Position.X > wallToDraw[i].Position.X)
+                    if (heroToDraw.Position.X > wallToDraw[i].Position.X)
                     {
-                        if (hero.Position.Y > wallToDraw[i].Position.Y)
+                        if (heroToDraw.Position.Y > wallToDraw[i].Position.Y)
                         {
-                            if (wallToDraw[i].Position.X + wallToDraw[i].Square.Width - hero.Position.X > wallToDraw[i].Position.Y + wallToDraw[i].Square.Height - hero.Position.Y)
+                            if (wallToDraw[i].Position.X + wallToDraw[i].Square.Width - heroToDraw.Position.X > wallToDraw[i].Position.Y + wallToDraw[i].Square.Height - heroToDraw.Position.Y)
                             {
 
                             }
@@ -128,7 +185,7 @@ namespace Tanks.VL.ViewLayer
                     }
                     else
                     {
-                        if (hero.Position.Y > wallToDraw[i].Position.Y)
+                        if (heroToDraw.Position.Y > wallToDraw[i].Position.Y)
                         {
 
                         }
@@ -138,27 +195,11 @@ namespace Tanks.VL.ViewLayer
                         }
                     }
                 }
-            }
 
-            for (var i = 0; i < enemyToDraw.Count; i++)
-            {
-                //if (ServiceLib.CheckCollision(control.GetHeroModel(), control.GetEnemyById(enemyToDraw[i].Id)))
-                //{
-                //    ServiceLib.WarningMessage("GAME OVER!", "Warning", MessageBoxButtons.OK);
-                //}
-                for (var j = i+1; j < enemyToDraw.Count; j++)
+                for (var m = 0; m < enemyToDraw.Count; m++)
                 {
-                    if (ServiceLib.CheckCollision(control.GetEnemyById(enemyToDraw[i].Id), 
-                        control.GetEnemyById(enemyToDraw[j].Id)))
-                    {
-                        break;
-                    }
-                }
-
-                for (var m = 0; m < wallToDraw.Count; m++) 
-                {
-                    if (ServiceLib.CheckWallCollision(control.GetEnemyById(enemyToDraw[i].Id), 
-                        control.GetBrickById(wallToDraw[m].Id)))
+                    if (CollisionTests.CheckEnemyWallCollision(control.GetEnemyById(enemyToDraw[m].Id),
+                        control.GetBrickById(wallToDraw[i].Id)))
                     {
                         break;
                     }
@@ -166,7 +207,7 @@ namespace Tanks.VL.ViewLayer
             }
         }
 
-        private void render()
+        private void Render()
         {
             //Bitmap bmp = new Bitmap(this.Width, this.Height);
             using (Graphics g = Graphics.FromImage(drawStage))
@@ -180,19 +221,23 @@ namespace Tanks.VL.ViewLayer
                 {
                     wallToDraw[i].DrawYourSelf(g);
                 }
-                hero.DrawYourSelf(g);
+                for(var i = 0; i < bulletsToDraw.Count; i++)
+                {
+                    bulletsToDraw[i].DrawYourSelf(g);
+                }
+                heroToDraw.DrawYourSelf(g);
             }
             mainStageBox.Image = drawStage;
         }
 
         private void MainStage_KeyDown(object sender, KeyEventArgs e)
         {
-            hero.KeyPressed(sender, e);
+            heroToDraw.KeyPressed(sender, e);
         }
 
         private void MainStage_KeyUp(object sender, KeyEventArgs e)
         {
-            hero.KeyNotPressed(sender, e);
+            heroToDraw.KeyNotPressed(sender, e);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Tanks.VL.ViewLayer.game_models
 {
     public class AppleModel : CoreModel
     {
-        public override Point Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override int Direction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override Point Position { get => position; set => position = value; }
+        public override int Direction { get => direction; set => direction = value; }
     }
 }

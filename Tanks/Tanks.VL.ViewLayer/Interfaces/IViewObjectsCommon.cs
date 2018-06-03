@@ -13,6 +13,7 @@ namespace Tanks.VL.ViewLayer.Interfaces
     {
         void DrawYourSelf(Graphics g);
         void Shoot();
+        void SpawnBulletView(BulletView bullet);
         void ChooseDirection(EnumDirections.Direction dir);
         void ReadPositionFromModel(DataTransfer e);
         void ReadDirectionFromModel(DataTransfer e);

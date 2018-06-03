@@ -42,5 +42,10 @@ namespace Tanks.VL.ViewLayer.game_objects
         {
             throw new NotImplementedException();
         }
+
+        public void SpawnBulletView(BulletView bullet)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllGameImages.cs" />
+    <Compile Include="CollisionTests.cs" />
     <Compile Include="controller\PacmanController.cs" />
     <Compile Include="DataTransfer.cs" />
     <Compile Include="EnumDirections.cs" />
@@ -57,11 +58,12 @@
     <Compile Include="game_models\EnemyModel.cs" />
     <Compile Include="game_models\KolobokModel.cs" />
     <Compile Include="GameData.cs" />
-    <Compile Include="game_objects\BrickView.cs" />
-    <Compile Include="game_objects\Bullet.cs" />
-    <Compile Include="game_objects\TankView.cs" />
-    <Compile Include="game_objects\GameObject.cs" />
-    <Compile Include="game_objects\KolobokView.cs" />
+    <Compile Include="game_views\AppleView.cs" />
+    <Compile Include="game_views\BrickView.cs" />
+    <Compile Include="game_views\BulletView.cs" />
+    <Compile Include="game_views\TankView.cs" />
+    <Compile Include="game_views\GameObject.cs" />
+    <Compile Include="game_views\KolobokView.cs" />
     <Compile Include="Interfaces\IData.cs" />
     <Compile Include="Interfaces\IEnemyController.cs" />
     <Compile Include="Interfaces\IController.cs" />

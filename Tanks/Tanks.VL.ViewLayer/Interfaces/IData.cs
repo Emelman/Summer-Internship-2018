@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,17 @@ namespace Tanks.VL.ViewLayer.Interfaces
         EnemyModel GetEnemyById(int id);
         BrickModel GetBrickById(int id);
         KolobokModel GetHeroModel();
+        BulletModel GetBulletById(int id);
+
+        void AddEnemy(Point position);
+        BulletModel AddBullet(Point position, int direction, Boolean isEnemyBullet);
+        void AddApple(Point position);
+        void AddBrick(Point position);
+        void DeleteBullet(int id);
+        void DeleteEnemy(int id);
+        void DeleteBrick(int id);
+        void DeleteApple(int id);
+
 
     }
 }

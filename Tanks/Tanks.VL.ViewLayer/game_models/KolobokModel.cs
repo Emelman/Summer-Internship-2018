@@ -35,7 +35,6 @@ namespace Tanks.VL.ViewLayer.game_models
                 OnDirectionChanged?.Invoke(new DataTransfer(GetId, direction));
             }
         }
-
         public void DirectionChanged(int direction)
         {
             Direction = direction;

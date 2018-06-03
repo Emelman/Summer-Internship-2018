@@ -17,28 +17,31 @@ namespace Tanks.VL.ViewLayer.game_objects
         public delegate void SetDirection(DataTransfer e);
         public event SetDirection PickDirection;
 
-        int stepCD;
-        int maxCD;
-        int shootCd;
-        int countShootCd;
-        int switchCd;
-        int maxSwithCd;
+        public delegate void CreateBulletModel(TankView sender);
+        public event CreateBulletModel StartShoot;
+        public delegate void CreateBulletView(BulletView e);
+        public CreateBulletView SpawnBullet;
+
+        private MainStage main;
         private Image pic = AllGameImages.enemyTank;
         private Rectangle[] rects = { new Rectangle(383, 3, 45, 45),
             new Rectangle(575, 0, 45, 45),
             new Rectangle(485, 0, 45, 45),
             new Rectangle(670, 0, 45, 45) };
 
-        public TankView()
+        public TankView(MainStage _main)
         {
+            main = _main;
             stepCD = 0;
             maxCD = ServiceLib.GetRandomNumber(1, 5) * 60;
+            SpawnBullet = new CreateBulletView(SpawnBulletView);
         }
 
         public void UpdateLogick()
         {
             FollowDirection();
             TurnRandomDirection();
+            //Shoot();
         }
 
         private void FollowDirection()
@@ -83,7 +86,16 @@ namespace Tanks.VL.ViewLayer.game_objects
 
         public void Shoot()
         {
-            throw new NotImplementedException();
+            if (shootCd <= countShootCd)
+            {
+                shootCd = 0;
+                countShootCd = ServiceLib.GetRandomNumber(1, 5) * 60;
+                StartShoot?.Invoke(this);
+            }
+            else
+            {
+                shootCd++;
+            }
         }
 
         public void ChooseDirection(EnumDirections.Direction dir)
@@ -100,6 +112,14 @@ namespace Tanks.VL.ViewLayer.game_objects
         public void ReadDirectionFromModel(DataTransfer e)
         {
             Direction = e.Direction;
+        }
+
+        public void SpawnBulletView(BulletView bullet)
+        {
+            var bullets = main.BulletsToDraw;
+            main.control.InitBulletsViewEvents(bullet);
+            bullets.Add(bullet);
+            main.BulletsToDraw = bullets;
         }
     }
 }

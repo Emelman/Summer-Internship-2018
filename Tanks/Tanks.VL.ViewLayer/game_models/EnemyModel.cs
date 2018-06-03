@@ -23,8 +23,11 @@ namespace Tanks.VL.ViewLayer.game_models
             }
             set
             {
-                position = value;
-                OnPositionChanged?.Invoke(new DataTransfer(GetId, Direction, position));
+                if(position != value)
+                {
+                    position = value;
+                    OnPositionChanged?.Invoke(new DataTransfer(GetId, Direction, position));
+                }
             }
         }
         public override int Direction
@@ -35,18 +38,20 @@ namespace Tanks.VL.ViewLayer.game_models
             }
             set
             {
-                direction = value;
-                OnDirectionChanged?.Invoke(new DataTransfer(GetId, direction));
+                if (direction != value)
+                {
+                    direction = value;
+                    OnDirectionChanged?.Invoke(new DataTransfer(GetId, direction));
+                }
             }
         }
-        public void SetDirection(int direct)
+        public void DirectionChanged(int direction)
         {
-            Direction = direct;
+            Direction = direction;
         }
-        public void ChangePosition(Point pt)
+        public void PositionChanged(Point pt)
         {
             Position = pt;
         }
-
     }
 }

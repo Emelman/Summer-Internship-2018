@@ -18,50 +18,29 @@ namespace Tanks.VL.ViewLayer
         private List<AppleModel> apples;
         private KolobokModel hero;
         private Random rnd = new Random();
+        private int speed;
 
-        public GameData(int tankNum, int _app,int speed)
+        public GameData(int tankNum, int _app,int _speed)
         {
+            speed = _speed;
             enemies = new List<EnemyModel>();
             apples = new List<AppleModel>();
             bricks = new List<BrickModel>();
             bullets = new List<BulletModel>();
             for (var i = 0; i < tankNum; i++)
             {
-                EnemyModel enemy = new EnemyModel();
-                enemy.Direction = ServiceLib.GetRandomNumber(0, 4);
-                enemy.Speed = speed;
-                enemy.Position = new Point(0 + i * 70, 0);
-                enemy.Square = new Size(45, 45);
-                var maxId = 0;
-                var ids = enemies.Select(u => u.GetId);
-                if (ids.Count() != 0)
-                {
-                    maxId = ids.Max();
-                }
-                enemy.GetId = maxId + 1;
-                enemies.Add(enemy);
+                AddEnemy(new Point(0 + i * 70, 0));
             }
             for(var i=0; i < _app; i++)
             {
-                AppleModel apple = new AppleModel();
-                apples.Add(apple);
+                AddApple(new Point(0 + i * 60, i * 50));
             }
 
             int count = 0;
             int raw = 1;
             for(var i=0; i < 30; i++)
             {
-                BrickModel wall = new BrickModel();
-                wall.Position = new Point(80 + 50 * count, 60 * raw);
-                wall.Square = new Size(50, 50);
-                var maxId = 0;
-                var ids = bricks.Select(u => u.GetId);
-                if (ids.Count() != 0)
-                {
-                    maxId = ids.Max();
-                }
-                wall.GetId = maxId + 1;
-                bricks.Add(wall);
+                AddBrick(new Point(80 + 50 * count, 60 * raw));
                 if (count == 8)
                 {
                     count = 0;
@@ -73,7 +52,7 @@ namespace Tanks.VL.ViewLayer
             KolobokModel model = new KolobokModel();
             model.Direction = (int)EnumDirections.Direction.UP;
             model.Speed = speed;
-            model.Position = new Point(300, 450);
+            model.Position = new Point(300, 550);
             model.Square = new Size(45, 45);
             hero = model;
         }
@@ -90,20 +69,10 @@ namespace Tanks.VL.ViewLayer
         {
             return apples;
         }
-        public EnemyModel GetEnemyById(int id)
-        {
-            var foe = enemies.Find(item => item.GetId == id);
-            return foe;
-        }
 
         public KolobokModel GetHeroModel()
         {
             return hero;
-        }
-
-        public void UpdateEnemysLogik()
-        {
-
         }
 
         public List<BulletModel> GetBulletsModels()
@@ -115,6 +84,106 @@ namespace Tanks.VL.ViewLayer
         {
             var brick = bricks.Find(item => item.GetId == id);
             return brick;
+        }
+
+        public BulletModel GetBulletById(int id)
+        {
+            var bullet = bullets.Find(item => item.GetId == id);
+            return bullet;
+        }
+        public EnemyModel GetEnemyById(int id)
+        {
+            var foe = enemies.Find(item => item.GetId == id);
+            return foe;
+        }
+        public void AddEnemy(Point position)
+        {
+            EnemyModel enemy = new EnemyModel();
+            enemy.Direction = ServiceLib.GetRandomNumber(0, 4);
+            enemy.Speed = speed;
+            enemy.Position = position;
+            enemy.Square = new Size(45, 45);
+            var maxId = 0;
+            var ids = enemies.Select(u => u.GetId);
+            if (ids.Count() != 0)
+            {
+                maxId = ids.Max();
+            }
+            enemy.GetId = maxId + 1;
+            enemies.Add(enemy);
+        }
+
+        public BulletModel AddBullet(Point position, int direction, Boolean isEnemyBullet)
+        {
+            BulletModel bullet = new BulletModel();
+            bullet.Direction = direction;
+            bullet.Position = position;
+            bullet.Square = new Size(15, 15);
+            bullet.Speed = speed;
+            bullet.isEnemyBullet = isEnemyBullet;
+            var maxId = 0;
+            var ids = bullets.Select(u => u.GetId);
+            if (ids.Count() != 0)
+            {
+                maxId = ids.Max();
+            }
+            bullet.GetId = maxId + 1;
+            bullets.Add(bullet);
+            return bullet;
+        }
+
+        public void AddApple(Point position)
+        {
+            AppleModel apple = new AppleModel();
+            apple.Position = position;
+            apple.Square = new Size(40, 40);
+            var maxId = 0;
+            var ids = apples.Select(u => u.GetId);
+            if (ids.Count() != 0)
+            {
+                maxId = ids.Max();
+            }
+            apple.GetId = maxId + 1;
+            apples.Add(apple);
+        }
+
+        public void AddBrick(Point position)
+        {
+            BrickModel wall = new BrickModel();
+            wall.Position = position;
+            wall.Square = new Size(50, 50);
+            var maxId = 0;
+            var ids = bricks.Select(u => u.GetId);
+            if (ids.Count() != 0)
+            {
+                maxId = ids.Max();
+            }
+            wall.GetId = maxId + 1;
+            bricks.Add(wall);
+        }
+
+        public void DeleteBullet(int id)
+        {
+            var bullet = bullets.Find(item => item.GetId == id);
+            bullets.Remove(bullet);
+        }
+
+        public void DeleteEnemy(int id)
+        {
+            var foe = enemies.Find(item => item.GetId == id);
+            enemies.Remove(foe);
+        }
+
+        public void DeleteBrick(int id)
+        {
+            var brick = bricks.Find(item => item.GetId == id);
+            bricks.Remove(brick);
+        }
+
+        public void DeleteApple(int id)
+        {
+            var apple = apples.Find(item => item.GetId == id);
+            apples.Remove(apple);
         }
     }
 }
