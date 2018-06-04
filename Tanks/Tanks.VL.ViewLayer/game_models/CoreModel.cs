@@ -23,5 +23,10 @@ namespace Tanks.VL.ViewLayer.game_models
         abstract public int Direction { get; set; }
         public int GetId { get => id; set => id = value; }
         public bool ToDelete { get => toDelete; set => toDelete = value; }
+        public string ObjectName
+        {
+            get => this.GetType().Name;
+        }
+
     }
 }

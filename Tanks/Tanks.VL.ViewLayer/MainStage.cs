@@ -27,10 +27,9 @@ namespace Tanks.VL.ViewLayer
         List<BulletView> bulletsToDraw;
         List<AppleView> applesToDraw;
 
-
+        Boolean showStatistics = false;
         MainMenu menu;
         Timer gameTimer;
-        GameStatsBoard dataPresent;
         public string[] args;
 
         public List<BulletView> BulletsToDraw { get => bulletsToDraw; set => bulletsToDraw = value; }
@@ -44,13 +43,13 @@ namespace Tanks.VL.ViewLayer
 
         public void InitGameStates(object sender, EventArgs e)
         {
+            InitializeComponent();
             menu.Dispose();
             InitGameObjects(args);
             InitGraphics(args);
             StartGameUpdateLogick();
-            InitializeComponent();
+            
             this.Size = new Size(int.Parse(args[0]) + 17, int.Parse(args[1]) + 40);
-            this.Focus();
         }
         private void InitGameObjects(string[] args)
         {
@@ -103,6 +102,7 @@ namespace Tanks.VL.ViewLayer
             mainStageBox.Size = new Size(int.Parse(args[0]), int.Parse(args[1]));
             this.Controls.Add(mainStageBox);
             drawStage = new Bitmap(int.Parse(args[0]), int.Parse(args[1]));
+            button1.Parent = mainStageBox;
         }
 
         private void StartGameUpdateLogick()
@@ -125,6 +125,10 @@ namespace Tanks.VL.ViewLayer
             UpdateFromModel();
             GameCollisions();
             Render();
+            if(showStatistics)
+            {
+                control.GetStatisticBoard().UpdateModel();
+            }
             gameTimer.Start();
         }
         private void UpdateFromModel()
@@ -146,10 +150,6 @@ namespace Tanks.VL.ViewLayer
                 {
                     bulletsToDraw[i].Update();
                 }
-            }
-            for(var i=0; i < applesToDraw.Count; i++)
-            {
-
             }
         }
         private void GameCollisions()
@@ -253,5 +253,23 @@ namespace Tanks.VL.ViewLayer
             heroToDraw.KeyNotPressed(sender, e);
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+            if (showStatistics)
+            {
+                showStatistics = false;
+                control.GetStatisticBoard().Hide();
+                mainStageBox.Focus();
+                this.KeyPreview = true;
+            }
+            else
+            {
+                showStatistics = true;
+                control.GetStatisticBoard().Show();
+                mainStageBox.Focus();
+                this.KeyPreview = true;
+            }
+        }
     }
 }

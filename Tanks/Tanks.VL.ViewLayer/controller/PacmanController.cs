@@ -15,10 +15,12 @@ namespace Tanks.VL.ViewLayer.controller
     public class PacmanController:IController,IMoving,IEnemyController,IData,IBulletMoving
     {
         private GameData globalModel;
+        GameStatsBoard statisticBoard;
 
         public PacmanController(string[] args)
         {
             globalModel = new GameData(int.Parse(args[2]), int.Parse(args[3]), int.Parse(args[4]));
+            statisticBoard = new GameStatsBoard(this);
         }
 
         public void InitHeroViewEvents(KolobokView view)
@@ -451,6 +453,11 @@ namespace Tanks.VL.ViewLayer.controller
         public void UpdateGameScore()
         {
             globalModel.UpdateGameScore();
+        }
+
+        public GameStatsBoard GetStatisticBoard()
+        {
+            return statisticBoard;
         }
     }
 }

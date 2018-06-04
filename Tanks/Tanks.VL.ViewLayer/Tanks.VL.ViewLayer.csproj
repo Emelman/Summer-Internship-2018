@@ -87,6 +87,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLib.cs" />
+    <Compile Include="view_models\CommonViewModel.cs" />
     <EmbeddedResource Include="GameStatsBoard.resx">
       <DependentUpon>GameStatsBoard.cs</DependentUpon>
     </EmbeddedResource>
@@ -115,8 +116,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="view_models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
