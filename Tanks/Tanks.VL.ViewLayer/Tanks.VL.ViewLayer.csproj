@@ -76,6 +76,7 @@
     <Compile Include="Interfaces\IController.cs" />
     <Compile Include="Interfaces\IModel.cs" />
     <Compile Include="Interfaces\IMoving.cs" />
+    <Compile Include="MainMenu.cs" />
     <Compile Include="MainStage.cs">
       <SubType>Form</SubType>
     </Compile>

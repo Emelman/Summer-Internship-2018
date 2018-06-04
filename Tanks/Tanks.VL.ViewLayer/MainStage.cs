@@ -27,25 +27,31 @@ namespace Tanks.VL.ViewLayer
         List<BulletView> bulletsToDraw;
         List<AppleView> applesToDraw;
 
+
+        MainMenu menu;
         Timer gameTimer;
         GameStatsBoard dataPresent;
+        public string[] args;
 
         public List<BulletView> BulletsToDraw { get => bulletsToDraw; set => bulletsToDraw = value; }
-
-        public MainStage(string[] args)
+        public MainStage(string[] _args)
         {
-            InitGameStates(args);
-            InitializeComponent();
-            this.Size = new Size(int.Parse(args[0])+17, int.Parse(args[1])+40);
+            this.args = _args;
+            menu = new MainMenu(this);
+            
+            this.Size = new Size(int.Parse(args[0]) + 17, int.Parse(args[1]) + 40);
         }
 
-        private void InitGameStates(string[] args)
+        public void InitGameStates(object sender, EventArgs e)
         {
+            menu.Dispose();
             InitGameObjects(args);
             InitGraphics(args);
             StartGameUpdateLogick();
+            InitializeComponent();
+            this.Size = new Size(int.Parse(args[0]) + 17, int.Parse(args[1]) + 40);
+            this.Focus();
         }
-
         private void InitGameObjects(string[] args)
         {
             control = new PacmanController(args);
@@ -219,5 +225,6 @@ namespace Tanks.VL.ViewLayer
         {
             heroToDraw.KeyNotPressed(sender, e);
         }
+
     }
 }
