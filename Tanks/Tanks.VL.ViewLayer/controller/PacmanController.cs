@@ -337,9 +337,9 @@ namespace Tanks.VL.ViewLayer.controller
             globalModel.AddApple(position);
         }
 
-        public void AddBrick(Point position)
+        public void AddBrick(Point position,Boolean isWater)
         {
-            globalModel.AddBrick(position);
+            globalModel.AddBrick(position, isWater);
         }
 
         public void DeleteBullet(int id)

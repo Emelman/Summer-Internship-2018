@@ -86,6 +86,7 @@ namespace Tanks.VL.ViewLayer
                 var brick = brickModels[i];
                 BrickView wall = new BrickView();
                 wall.Id = brick.GetId;
+                wall.isWater = brick.isWater;
                 wall.Position = brick.Position;
                 wall.Square = brick.Square;
                 wallToDraw.Add(wall);
@@ -252,7 +253,7 @@ namespace Tanks.VL.ViewLayer
                 var bullet = control.GetBulletById(bulletsToDraw[f].Id);
                 for (var j = 0; j < wallToDraw.Count; j++)
                 {
-                    if (CollisionTests.CheckBulletCollsion(bullet,
+                    if (!wallToDraw[j].isWater && CollisionTests.CheckBulletCollsion(bullet,
                         control.GetBrickById(wallToDraw[j].Id)))
                     {
                         control.DeleteBrick(wallToDraw[j].Id);

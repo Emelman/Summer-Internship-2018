@@ -11,7 +11,8 @@ namespace Tanks.VL.ViewLayer.game_objects
 {
     public class BrickView : GameObject, IViewObjectsCommon
     {
-        private Rectangle rect = new Rectangle(770, 0, 50, 50);
+        public Boolean isWater;
+        private Rectangle[] rect = { new Rectangle(770, 0, 50, 50), new Rectangle(817, 145, 48, 48) };
         public BrickView()
         {
             
@@ -24,7 +25,16 @@ namespace Tanks.VL.ViewLayer.game_objects
 
         public void DrawYourSelf(Graphics g)
         {
-            g.DrawImage(AllGameImages.all_sprites, Position.X, Position.Y, rect, GraphicsUnit.Pixel);
+            int index;
+            if (isWater)
+            {
+                index = 1;
+            }
+            else
+            {
+                index = 0;
+            }
+            g.DrawImage(AllGameImages.all_sprites, Position.X, Position.Y, rect[index], GraphicsUnit.Pixel);
         }
 
         public void ReadDirectionFromModel(DataTransfer e)

@@ -40,13 +40,25 @@ namespace Tanks.VL.ViewLayer
 
             int count = 0;
             int raw = 1;
-            for(var i=0; i < 30; i++)
+            for(var i=0; i < 26; i++)
             {
-                AddBrick(new Point(80 + 50 * count, 60 * raw));
+                AddBrick(new Point(80 + 50 * count, 60 * raw),false);
                 if (count == 8)
                 {
                     count = 0;
                     raw += 3;
+                }
+                else count++;
+            }
+            count = 0;
+            raw = 3;
+            for(var i = 0; i < 14; i++)
+            {
+                AddBrick(new Point(80 + 50 + 50 * count, 60 * raw), true);
+                if (count == 6)
+                {
+                    count = 0;
+                    raw += 2;
                 }
                 else count++;
             }
@@ -155,11 +167,12 @@ namespace Tanks.VL.ViewLayer
             apples.Add(apple);
         }
 
-        public void AddBrick(Point position)
+        public void AddBrick(Point position, Boolean isWater)
         {
             BrickModel wall = new BrickModel();
             wall.Position = position;
             wall.Square = new Size(50, 50);
+            wall.isWater = isWater;
             var maxId = 0;
             var ids = bricks.Select(u => u.GetId);
             if (ids.Count() != 0)

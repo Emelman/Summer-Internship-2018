@@ -9,6 +9,7 @@ namespace Tanks.VL.ViewLayer.game_models
 {
     public class BrickModel : CoreModel
     {
+        public Boolean isWater;
         public override Point Position { get => position; set => position = value; }
         public override int Direction { get => direction; set => direction = value; }
     }

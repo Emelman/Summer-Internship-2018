@@ -23,7 +23,7 @@ namespace Tanks.VL.ViewLayer.Interfaces
         void AddEnemy(Point position);
         BulletModel AddBullet(Point position, int direction, Boolean isEnemyBullet);
         void AddApple(Point position);
-        void AddBrick(Point position);
+        void AddBrick(Point position, Boolean isWater);
         void DeleteBullet(int id);
         void DeleteEnemy(int id);
         void DeleteBrick(int id);
