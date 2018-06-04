@@ -32,7 +32,6 @@ namespace Tanks.VL.ViewLayer.game_objects
         public CreateBulletView SpawnBullet;
 
         private MainStage main;
-        private Image pic = AllGameImages.heroTank;
         private Rectangle[] rects = { new Rectangle(0, 3, 45, 45), new Rectangle(191,0,45,45), new Rectangle(100, 0, 45, 45), new Rectangle(285,0,45,45) };
 
         public KolobokView(MainStage _main)

@@ -119,7 +119,16 @@ namespace Tanks.VL.ViewLayer
             }
             for(var i = 0; i < bulletsToDraw.Count; i++)
             {
-                bulletsToDraw[i].Update();
+                if (bulletsToDraw[i].ToDelete)
+                {
+                    control.DeleteBullet(bulletsToDraw[i].Id);
+                    BulletsToDraw.Remove(bulletsToDraw[i]);
+                    i++;
+                }
+                else
+                {
+                    bulletsToDraw[i].Update();
+                }
             }
         }
         private void GameCollisions()
@@ -131,77 +140,47 @@ namespace Tanks.VL.ViewLayer
                 if (CollisionTests.CheckCollision(control.GetHeroModel(), enemyToCheck))
                 {
                     ServiceLib.WarningMessage("GAME OVER!", "Warning", MessageBoxButtons.OK);
-                }
-                //enemy collision test with each other
-                for (var j = i + 1; j < enemyToDraw.Count; j++)
-                {
-                    if (CollisionTests.CheckCollision(enemyToCheck,
-                        control.GetEnemyById(enemyToDraw[j].Id)))
-                    {
-                        break;
-                    }
+                    StopGameUpdateLogick();
+                    return;
                 }
 
                 for (var f = 0; f < bulletsToDraw.Count; f++)
                 {
+                    var bullet = control.GetBulletById(bulletsToDraw[f].Id);
                     if (!bulletsToDraw[f].isEnemyBullet)
                     {
-                        if (CollisionTests.CheckBulletCollsion(control.GetBulletById(bulletsToDraw[f].Id),
+                        if (CollisionTests.CheckBulletCollsion(bullet,
                             enemyToCheck))
                         {
                             control.DeleteEnemy(enemyToDraw[i].Id);
                             control.DeleteBullet(bulletsToDraw[f].Id);
                             enemyToDraw.Remove(enemyToDraw[i]);
                             bulletsToDraw.Remove(bulletsToDraw[f]);
+                            f++;
                             break;
-                        }
-                    }
-                }
-            }
-
-
-
-            for (var i = 0; i < wallToDraw.Count; i++)
-            {
-                if (CollisionTests.CheckHeroWallCollision(control.GetHeroModel(), control.GetBrickById(wallToDraw[i].Id)))
-                {
-                    if (heroToDraw.Position.X > wallToDraw[i].Position.X)
-                    {
-                        if (heroToDraw.Position.Y > wallToDraw[i].Position.Y)
-                        {
-                            if (wallToDraw[i].Position.X + wallToDraw[i].Square.Width - heroToDraw.Position.X > wallToDraw[i].Position.Y + wallToDraw[i].Square.Height - heroToDraw.Position.Y)
-                            {
-
-                            }
-                            else
-                            {
-
-                            }
-                        }
-                        else
-                        {
-
                         }
                     }
                     else
                     {
-                        if (heroToDraw.Position.Y > wallToDraw[i].Position.Y)
+                        if (CollisionTests.CheckBulletCollsion(bullet, control.GetHeroModel()))
                         {
-
-                        }
-                        else
-                        {
-
-                        }
+                            ServiceLib.WarningMessage("GAME OVER!", "Warning", MessageBoxButtons.OK);
+                            StopGameUpdateLogick();
+                            return;
+                        } 
                     }
-                }
 
-                for (var m = 0; m < enemyToDraw.Count; m++)
-                {
-                    if (CollisionTests.CheckEnemyWallCollision(control.GetEnemyById(enemyToDraw[m].Id),
-                        control.GetBrickById(wallToDraw[i].Id)))
+                    for (var j = 0; j < wallToDraw.Count; j++)
                     {
-                        break;
+                        if (CollisionTests.CheckBulletCollsion(bullet,
+                            control.GetBrickById(wallToDraw[j].Id)))
+                        {
+                            control.DeleteBrick(wallToDraw[j].Id);
+                            control.DeleteBullet(bulletsToDraw[f].Id);
+                            wallToDraw.Remove(wallToDraw[j]);
+                            bulletsToDraw.Remove(bulletsToDraw[f]);
+                            break;
+                        }
                     }
                 }
             }

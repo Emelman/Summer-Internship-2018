@@ -15,12 +15,13 @@ namespace Tanks.VL.ViewLayer.game_models
         protected int direction;
         protected int speed;
         protected Size square;
+        private Boolean toDelete;
 
         public int Speed { get => speed; set => speed = value; }
         public Size Square { get => square; set => square = value; }
         abstract public Point Position { get; set; }
         abstract public int Direction { get; set; }
         public int GetId { get => id; set => id = value; }
-
+        public bool ToDelete { get => toDelete; set => toDelete = value; }
     }
 }

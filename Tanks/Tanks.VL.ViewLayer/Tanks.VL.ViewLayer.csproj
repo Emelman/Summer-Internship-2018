@@ -64,6 +64,7 @@
     <Compile Include="game_views\TankView.cs" />
     <Compile Include="game_views\GameObject.cs" />
     <Compile Include="game_views\KolobokView.cs" />
+    <Compile Include="Interfaces\IBulletMoving.cs" />
     <Compile Include="Interfaces\IData.cs" />
     <Compile Include="Interfaces\IEnemyController.cs" />
     <Compile Include="Interfaces\IController.cs" />

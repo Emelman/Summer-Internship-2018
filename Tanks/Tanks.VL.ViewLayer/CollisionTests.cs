@@ -46,6 +46,17 @@ namespace Tanks.VL.ViewLayer
             return false;
         }
 
+        public static Boolean CheckGameObjectsWallCollision(Point position1, Size square1, Point position2, Size square2)
+        {
+            var rectM1 = new Rectangle(position1, square1);
+            var rectM2 = new Rectangle(position2, square2);
+            if (rectM1.IntersectsWith(rectM2))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static Boolean CheckBulletCollsion(BulletModel modelB, CoreModel model)
         {
             var rectM1 = new Rectangle(modelB.Position, modelB.Square);
@@ -56,6 +67,65 @@ namespace Tanks.VL.ViewLayer
             }
             return false;
         }
+
+        /*
+        public static Boolean GetWallSideCollision()
+        {
+            if (heroToDraw.Position.X >= wallToDraw[i].Position.X)
+            {
+                if (heroToDraw.Position.Y >= wallToDraw[i].Position.Y)
+                {
+                    if (wallToDraw[i].Position.X + wallToDraw[i].Square.Width - heroToDraw.Position.X >=
+                        wallToDraw[i].Position.Y + wallToDraw[i].Square.Height - heroToDraw.Position.Y)
+                    {
+                        heroToDraw.Position.Y += speed;
+                    }
+                    else
+                    {
+                        heroToDraw.Position.X += speed;
+                    }
+                }
+                else
+                {
+                    if (wallToDraw[i].Position.X + wallToDraw[i].Square.Width - heroToDraw.Position.X >=
+                        wallToDraw[i].Position.Y + wallToDraw[i].Square.Height - (heroToDraw.Position.Y + heroToDraw.Square.Height))
+                    {
+                        heroToDraw.Position.Y -= speed;
+                    }
+                    else
+                    {
+                        heroToDraw.Position.X -= speed;
+                    }
+                }
+            }
+            else
+            {
+                if (heroToDraw.Position.Y >= wallToDraw[i].Position.Y)
+                {
+                    if (heroToDraw.Position.X + heroToDraw.Square.Width - wallToDraw[i].Position.X >=
+                        wallToDraw[i].Position.Y + wallToDraw[i].Square.Height - heroToDraw.Position.Y)
+                    {
+                        heroToDraw.Position.Y += speed;
+                    }
+                    else
+                    {
+                        heroToDraw.Position.X -= speed;
+                    }
+                }
+                else
+                {
+                    if (heroToDraw.Position.X + heroToDraw.Square.Width - wallToDraw[i].Position.X >=
+                        heroToDraw.Position.Y + heroToDraw.Square.Height - wallToDraw[i].Position.Y)
+                    {
+                        heroToDraw.Position.Y -= speed;
+                    }
+                    else
+                    {
+                        heroToDraw.Position.X -= speed;
+                    }
+                }
+            }
+        }*/
 
     }
 }

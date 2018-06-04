@@ -15,10 +15,13 @@ namespace Tanks.VL.ViewLayer.game_objects
         public delegate void SetDirection(DataTransfer e);
         public event SetDirection PickDirection;
         public Boolean isEnemyBullet;
+        private Boolean toDelete;
         private Rectangle[] rects = { new Rectangle(967, 304, 13, 16),
             new Rectangle(1015, 304, 13, 16),
             new Rectangle(988, 304, 16, 13),
             new Rectangle(1036, 304, 16, 13) };
+
+        public bool ToDelete { get => toDelete; set => toDelete = value; }
 
         public BulletView()
         {

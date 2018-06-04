@@ -12,7 +12,7 @@ using Tanks.VL.ViewLayer.Interfaces;
 
 namespace Tanks.VL.ViewLayer.controller
 {
-    public class PacmanController:IController,IMoving,IEnemyController,IData
+    public class PacmanController:IController,IMoving,IEnemyController,IData,IBulletMoving
     {
         private GameData globalModel;
 
@@ -55,27 +55,53 @@ namespace Tanks.VL.ViewLayer.controller
         private void ModelCHangePosition(GameObject sender, EventArgs e)
         {
             var hModel = GetHeroModel();
+            Point pt;
             switch (hModel.Direction)
             {
                 case (int)EnumDirections.Direction.UP:
-                    hModel.PositionChanged(MoveUp(hModel));
-                    //tempPt = MoveUp();
+                    pt = MoveUp(hModel);
+                    if(WallDetector(hModel, pt))
+                    {
+                        PositionChanged(hModel, pt);
+                    }
                     break;
                 case (int)EnumDirections.Direction.DOWN:
-                    hModel.PositionChanged(MoveDown(hModel));
-                    //tempPt = MoveDown();
+                    pt = MoveDown(hModel);
+                    if (WallDetector(hModel, pt))
+                    {
+                        PositionChanged(hModel, pt);
+                    }
                     break;
                 case (int)EnumDirections.Direction.LEFT:
-                    hModel.PositionChanged(MoveLeft(hModel));
-                    //tempPt = MoveLeft();
+                    pt = MoveLeft(hModel);
+                    if (WallDetector(hModel, pt))
+                    {
+                        PositionChanged(hModel, pt);
+                    }
                     break;
                 case (int)EnumDirections.Direction.RIGHT:
-                    hModel.PositionChanged(MoveRight(hModel));
-                    //tempPt = MoveRight();
+                    pt = MoveRight(hModel);
+                    if (WallDetector(hModel, pt))
+                    {
+                        PositionChanged(hModel, pt);
+                    }
                     break;
                 default:
                     throw (new ArgumentException("No such direction!"));
             }
+        }
+
+        private Boolean WallDetector(CoreModel hModel,Point pt)
+        {
+            var walls = GetBricksModels();
+            for (var i = 0; i < walls.Count; i++)
+            {
+                if (CollisionTests.CheckGameObjectsWallCollision(pt, hModel.Square, walls[i].Position, walls[i].Square))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public void DirectionChanged(CoreModel model, int direction)
@@ -116,16 +142,17 @@ namespace Tanks.VL.ViewLayer.controller
             switch (model.Direction)
             {
                 case (int)EnumDirections.Direction.UP:
-                    model.PositionChanged(MoveUp(model));
+                    model.PositionChanged(MoveBulletUp(model));
+                    sender.ToDelete = model.ToDelete;
                     break;
                 case (int)EnumDirections.Direction.DOWN:
-                    model.PositionChanged(MoveDown(model));
+                    model.PositionChanged(MoveBulletDown(model));
                     break;
                 case (int)EnumDirections.Direction.LEFT:
-                    model.PositionChanged(MoveLeft(model));
+                    model.PositionChanged(MoveBulletLeft(model));
                     break;
                 case (int)EnumDirections.Direction.RIGHT:
-                    model.PositionChanged(MoveRight(model));
+                    model.PositionChanged(MoveBulletRight(model));
                     break;
                 default:
                     throw (new ArgumentException("No such direction!"));
@@ -158,23 +185,70 @@ namespace Tanks.VL.ViewLayer.controller
         private void EnemyTankChangedPosition(GameObject sender, EventArgs e)
         {
             var model = globalModel.GetEnemyById(sender.Id);
+            Point pt;
             switch (model.Direction)
             {
                 case (int)EnumDirections.Direction.UP:
-                    model.PositionChanged(MoveUp(model));
+                    pt = MoveUp(model);
+                    if (WallDetector(model, pt))
+                    {
+                        if (EnemyHitEnemyDetector(model, pt))
+                        {
+                            PositionChanged(model, pt);
+                        }
+                    }
                     break;
                 case (int)EnumDirections.Direction.DOWN:
-                    model.PositionChanged(MoveDown(model));
+                    pt = MoveDown(model);
+                    if (WallDetector(model, pt))
+                    {
+                        if (EnemyHitEnemyDetector(model, pt))
+                        {
+                            PositionChanged(model, pt);
+                        }
+                    }
                     break;
                 case (int)EnumDirections.Direction.LEFT:
-                    model.PositionChanged(MoveLeft(model));
+                    pt = MoveLeft(model);
+                    if (WallDetector(model, pt))
+                    {
+                        if (EnemyHitEnemyDetector(model, pt))
+                        {
+                            PositionChanged(model, pt);
+                        }
+                    }
                     break;
                 case (int)EnumDirections.Direction.RIGHT:
-                    model.PositionChanged(MoveRight(model));
+                    pt = MoveRight(model);
+                    if (WallDetector(model, pt))
+                    {
+                        if (EnemyHitEnemyDetector(model, pt))
+                        {
+                            PositionChanged(model, pt);
+                        }
+                    }
                     break;
                 default:
                     throw (new ArgumentException("No such direction!"));
             }
+        }
+
+        private Boolean EnemyHitEnemyDetector(CoreModel model, Point pt)
+        {
+            var enemys = GetEnemyModels();
+            for (var i = 0; i < enemys.Count; i++)
+            {
+                if (CollisionTests.CheckGameObjectsWallCollision(pt, model.Square, enemys[i].Position, enemys[i].Square))
+                {
+                    if(enemys[i].GetId != model.GetId)
+                    {
+                        model.Direction = ServiceLib.SwitchOppositeDirection(model);
+                        enemys[i].Direction = ServiceLib.SwitchOppositeDirection(enemys[i]); ///!!!! model1 !?!?!?
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
         private Point SetBulletPosition(int direction, Point pt)
         {
@@ -327,5 +401,48 @@ namespace Tanks.VL.ViewLayer.controller
             return pt;
         }
 
+        public Point MoveBulletUp(CoreModel model)
+        {
+            var pt = model.Position;
+            pt.Y -= model.Speed;
+            if (pt.Y < 0)
+            {
+                model.ToDelete = true;
+            }
+            return pt;
+        }
+
+        public Point MoveBulletDown(CoreModel model)
+        {
+            var pt = model.Position;
+            pt.Y += model.Speed;
+            if (pt.Y > 600)
+            {
+                model.ToDelete = true;
+            }
+            return pt;
+        }
+
+        public Point MoveBulletLeft(CoreModel model)
+        {
+            var pt = model.Position;
+            pt.X -= model.Speed;
+            if (pt.X < 0)
+            {
+                model.ToDelete = true;
+            }
+            return pt;
+        }
+
+        public Point MoveBulletRight(CoreModel model)
+        {
+            var pt = model.Position;
+            pt.X += model.Speed;
+            if (pt.X > 600)
+            {
+                model.ToDelete = true;
+            }
+            return pt;
+        }
     }
 }

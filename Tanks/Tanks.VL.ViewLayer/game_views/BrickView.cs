@@ -11,7 +11,6 @@ namespace Tanks.VL.ViewLayer.game_objects
 {
     public class BrickView : GameObject, IViewObjectsCommon
     {
-        private Image pic = AllGameImages.brickWall;
         private Rectangle rect = new Rectangle(770, 0, 50, 50);
         public BrickView()
         {

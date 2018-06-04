@@ -23,7 +23,6 @@ namespace Tanks.VL.ViewLayer.game_objects
         public CreateBulletView SpawnBullet;
 
         private MainStage main;
-        private Image pic = AllGameImages.enemyTank;
         private Rectangle[] rects = { new Rectangle(383, 3, 45, 45),
             new Rectangle(575, 0, 45, 45),
             new Rectangle(485, 0, 45, 45),
@@ -34,6 +33,7 @@ namespace Tanks.VL.ViewLayer.game_objects
             main = _main;
             stepCD = 0;
             maxCD = ServiceLib.GetRandomNumber(1, 5) * 60;
+            countShootCd = ServiceLib.GetRandomNumber(1, 5) * 60;
             SpawnBullet = new CreateBulletView(SpawnBulletView);
         }
 
@@ -41,7 +41,7 @@ namespace Tanks.VL.ViewLayer.game_objects
         {
             FollowDirection();
             TurnRandomDirection();
-            //Shoot();
+            Shoot();
         }
 
         private void FollowDirection()
@@ -86,7 +86,7 @@ namespace Tanks.VL.ViewLayer.game_objects
 
         public void Shoot()
         {
-            if (shootCd <= countShootCd)
+            if (shootCd >= countShootCd)
             {
                 shootCd = 0;
                 countShootCd = ServiceLib.GetRandomNumber(1, 5) * 60;

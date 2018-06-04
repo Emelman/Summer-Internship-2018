@@ -120,6 +120,7 @@ namespace Tanks.VL.ViewLayer
             bullet.Position = position;
             bullet.Square = new Size(15, 15);
             bullet.Speed = speed;
+            bullet.ToDelete = false;
             bullet.isEnemyBullet = isEnemyBullet;
             var maxId = 0;
             var ids = bullets.Select(u => u.GetId);
