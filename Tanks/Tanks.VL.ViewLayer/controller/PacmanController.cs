@@ -149,12 +149,15 @@ namespace Tanks.VL.ViewLayer.controller
                     break;
                 case (int)EnumDirections.Direction.DOWN:
                     model.PositionChanged(MoveBulletDown(model));
+                    sender.ToDelete = model.ToDelete;
                     break;
                 case (int)EnumDirections.Direction.LEFT:
                     model.PositionChanged(MoveBulletLeft(model));
+                    sender.ToDelete = model.ToDelete;
                     break;
                 case (int)EnumDirections.Direction.RIGHT:
                     model.PositionChanged(MoveBulletRight(model));
+                    sender.ToDelete = model.ToDelete;
                     break;
                 default:
                     throw (new ArgumentException("No such direction!"));
@@ -453,6 +456,10 @@ namespace Tanks.VL.ViewLayer.controller
         public void UpdateGameScore()
         {
             globalModel.UpdateGameScore();
+        }
+        public int GetScore()
+        {
+            return globalModel.GetScore();
         }
 
         public GameStatsBoard GetStatisticBoard()

@@ -20,7 +20,7 @@ namespace Tanks.VL.ViewLayer
             InitMainMenu();
         }
 
-        private void InitMainMenu()
+        public void InitMainMenu()
         {
             box = new PictureBox();
             box.Size = new Size(int.Parse(main.args[0]), int.Parse(main.args[1]));

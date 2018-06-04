@@ -29,6 +29,6 @@ namespace Tanks.VL.ViewLayer.Interfaces
         void DeleteBrick(int id);
         void DeleteApple(int id);
         void UpdateGameScore();
-
+        int GetScore();
     }
 }

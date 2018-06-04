@@ -198,5 +198,10 @@ namespace Tanks.VL.ViewLayer
         {
             gameScore++;
         }
+
+        public int GetScore()
+        {
+            return gameScore;
+        }
     }
 }

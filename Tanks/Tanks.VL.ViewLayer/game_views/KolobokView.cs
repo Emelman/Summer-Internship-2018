@@ -37,7 +37,7 @@ namespace Tanks.VL.ViewLayer.game_objects
         public KolobokView(MainStage _main)
         {
             shootCd = 0;
-            countShootCd = 60;
+            countShootCd = 10;
             main = _main;
             SpawnBullet = new CreateBulletView(SpawnBulletView);
         }

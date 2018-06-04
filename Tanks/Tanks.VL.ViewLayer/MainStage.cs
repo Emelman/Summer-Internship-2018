@@ -27,7 +27,11 @@ namespace Tanks.VL.ViewLayer
         List<BulletView> bulletsToDraw;
         List<AppleView> applesToDraw;
 
+        Button toMainMenu;
+        TextBox gameEndLabel;
+        TextBox gameScoreLabel;
         Boolean showStatistics = false;
+        Boolean isWinner = false;
         MainMenu menu;
         Timer gameTimer;
         public string[] args;
@@ -37,7 +41,9 @@ namespace Tanks.VL.ViewLayer
         {
             this.args = _args;
             menu = new MainMenu(this);
-            
+            toMainMenu = new Button();
+            gameEndLabel = new TextBox();
+            gameScoreLabel = new TextBox();
             this.Size = new Size(int.Parse(args[0]) + 17, int.Parse(args[1]) + 40);
         }
 
@@ -117,7 +123,51 @@ namespace Tanks.VL.ViewLayer
         {
             gameTimer.Stop();
             gameTimer.Tick -= GameUpdate;
+
+            gameEndLabel.Font = new Font(gameEndLabel.Font.FontFamily, 46,FontStyle.Bold);
+            gameEndLabel.TextAlign = HorizontalAlignment.Center;
+            if (!isWinner)
+            {
+                gameEndLabel.Text = "Game Over";
+            }
+            else
+            {
+                gameEndLabel.Text = "Game Complete";
+            }
+            gameEndLabel.Width = 450;
+            gameEndLabel.BackColor = Color.Gray;
+            gameEndLabel.SelectionLength = 0;
+            gameEndLabel.Location = new Point(this.Width/2 - gameEndLabel.Width / 2, 150);
+            mainStageBox.Controls.Add(gameEndLabel);
+
+            gameScoreLabel.Font = new Font(gameEndLabel.Font.FontFamily, 25, FontStyle.Bold);
+            gameScoreLabel.TextAlign = HorizontalAlignment.Center;
+            gameScoreLabel.Text = "Your score: " + control.GetScore().ToString();
+            gameScoreLabel.Width = 300;
+            gameScoreLabel.BackColor = Color.Gray;
+            gameScoreLabel.SelectionLength = 0;
+            gameScoreLabel.Location = new Point(this.Width / 2 - gameScoreLabel.Width / 2, 250);
+            mainStageBox.Controls.Add(gameScoreLabel);
+
+            toMainMenu.Size = new Size(100, 40);
+            toMainMenu.Location = new Point(this.Width/2 - toMainMenu.Width / 2, 450);
+            toMainMenu.Text = "TO MAIN MENU";
+            toMainMenu.BackColor = Color.Gray;
+            toMainMenu.Click += new EventHandler(CallMainMenu);
+            mainStageBox.Controls.Add(toMainMenu);
+            
         }
+
+        private void CallMainMenu(object sender, EventArgs e)
+        {
+            toMainMenu.Click -= CallMainMenu;
+            mainStageBox.Controls.Remove(gameEndLabel);
+            mainStageBox.Controls.Remove(gameScoreLabel);
+            mainStageBox.Controls.Remove(toMainMenu);
+            this.Controls.Remove(mainStageBox);
+            menu.InitMainMenu();
+        }
+
 
         private void GameUpdate(Object sender, EventArgs e)
         {
@@ -144,12 +194,16 @@ namespace Tanks.VL.ViewLayer
                 {
                     control.DeleteBullet(bulletsToDraw[i].Id);
                     BulletsToDraw.Remove(bulletsToDraw[i]);
-                    i++;
                 }
                 else
                 {
                     bulletsToDraw[i].Update();
                 }
+            }
+            if(control.GetEnemyModels().Count <= 0)
+            {
+                isWinner = true;
+                StopGameUpdateLogick();
             }
         }
         private void GameCollisions()
@@ -160,7 +214,7 @@ namespace Tanks.VL.ViewLayer
                 var enemyToCheck = control.GetEnemyById(enemyToDraw[i].Id);
                 if (CollisionTests.CheckCollision(control.GetHeroModel(), enemyToCheck))
                 {
-                    ServiceLib.WarningMessage("GAME OVER!", "Warning", MessageBoxButtons.OK);
+                    //ServiceLib.WarningMessage("GAME OVER!", "Warning", MessageBoxButtons.OK);
                     StopGameUpdateLogick();
                     return;
                 }
@@ -185,27 +239,32 @@ namespace Tanks.VL.ViewLayer
                     {
                         if (CollisionTests.CheckBulletCollsion(bullet, control.GetHeroModel()))
                         {
-                            ServiceLib.WarningMessage("GAME OVER!", "Warning", MessageBoxButtons.OK);
+                            //ServiceLib.WarningMessage("GAME OVER!", "Warning", MessageBoxButtons.OK);
                             StopGameUpdateLogick();
                             return;
                         } 
                     }
+                }
+            }
 
-                    for (var j = 0; j < wallToDraw.Count; j++)
+            for (var f = 0; f < bulletsToDraw.Count; f++)
+            {
+                var bullet = control.GetBulletById(bulletsToDraw[f].Id);
+                for (var j = 0; j < wallToDraw.Count; j++)
+                {
+                    if (CollisionTests.CheckBulletCollsion(bullet,
+                        control.GetBrickById(wallToDraw[j].Id)))
                     {
-                        if (CollisionTests.CheckBulletCollsion(bullet,
-                            control.GetBrickById(wallToDraw[j].Id)))
-                        {
-                            control.DeleteBrick(wallToDraw[j].Id);
-                            control.DeleteBullet(bulletsToDraw[f].Id);
-                            wallToDraw.Remove(wallToDraw[j]);
-                            bulletsToDraw.Remove(bulletsToDraw[f]);
-                            break;
-                        }
+                        control.DeleteBrick(wallToDraw[j].Id);
+                        control.DeleteBullet(bulletsToDraw[f].Id);
+                        wallToDraw.Remove(wallToDraw[j]);
+                        bulletsToDraw.Remove(bulletsToDraw[f]);
+                        break;
                     }
                 }
             }
-            for(var i=0; i < applesToDraw.Count; i++)
+
+            for (var i=0; i < applesToDraw.Count; i++)
             {
                 if (CollisionTests.CheckHeroWallCollision(control.GetHeroModel(), control.GetAppleById(applesToDraw[i].Id)))
                 {
