@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Tanks.VL.ViewLayer.controller;
 using Tanks.VL.ViewLayer.game_models;
 using Tanks.VL.ViewLayer.game_objects;
+using Tanks.VL.ViewLayer.game_views;
 
 namespace Tanks.VL.ViewLayer
 {
@@ -26,6 +27,7 @@ namespace Tanks.VL.ViewLayer
         List<BrickView> wallToDraw;
         List<BulletView> bulletsToDraw;
         List<AppleView> applesToDraw;
+        List<ExplosionView> exploToDraw;
 
         Button toMainMenu;
         TextBox gameEndLabel;
@@ -66,6 +68,7 @@ namespace Tanks.VL.ViewLayer
             wallToDraw = new List<BrickView>();
             bulletsToDraw = new List<BulletView>();
             applesToDraw = new List<AppleView>();
+            exploToDraw = new List<ExplosionView>();
 
             var enenmyModels = control.GetEnemyModels();
             for (var i = 0; i < enenmyModels.Count; i++)
@@ -201,6 +204,14 @@ namespace Tanks.VL.ViewLayer
                     bulletsToDraw[i].Update();
                 }
             }
+            for(var i = 0; i < exploToDraw.Count; i++)
+            {
+                if (exploToDraw[i].stopAnim)
+                {
+                    exploToDraw.Remove(exploToDraw[i]);
+                }
+            }
+
             if(control.GetEnemyModels().Count <= 0)
             {
                 isWinner = true;
@@ -230,6 +241,7 @@ namespace Tanks.VL.ViewLayer
                         {
                             control.DeleteEnemy(enemyToDraw[i].Id);
                             control.DeleteBullet(bulletsToDraw[f].Id);
+                            AddExplosion(enemyToCheck.Position);
                             enemyToDraw.Remove(enemyToDraw[i]);
                             bulletsToDraw.Remove(bulletsToDraw[f]);
                             f++;
@@ -256,6 +268,7 @@ namespace Tanks.VL.ViewLayer
                     if (!wallToDraw[j].isWater && CollisionTests.CheckBulletCollsion(bullet,
                         control.GetBrickById(wallToDraw[j].Id)))
                     {
+                        AddExplosion(control.GetBrickById(wallToDraw[j].Id).Position);
                         control.DeleteBrick(wallToDraw[j].Id);
                         control.DeleteBullet(bulletsToDraw[f].Id);
                         wallToDraw.Remove(wallToDraw[j]);
@@ -274,6 +287,13 @@ namespace Tanks.VL.ViewLayer
                     control.UpdateGameScore();
                 }
             }
+        }
+
+        private void AddExplosion(Point position)
+        {
+            ExplosionView explo = new ExplosionView();
+            explo.Position = position;
+            exploToDraw.Add(explo);
         }
 
         private void Render()
@@ -297,6 +317,10 @@ namespace Tanks.VL.ViewLayer
                 for(var i=0; i < applesToDraw.Count; i++)
                 {
                     applesToDraw[i].DrawYourSelf(g);
+                }
+                for (var i = 0; i < exploToDraw.Count; i++)
+                {
+                    exploToDraw[i].DrawYourSelf(g);
                 }
                 heroToDraw.DrawYourSelf(g);
             }

@@ -67,6 +67,7 @@
     <Compile Include="game_views\AppleView.cs" />
     <Compile Include="game_views\BrickView.cs" />
     <Compile Include="game_views\BulletView.cs" />
+    <Compile Include="game_views\ExplosionView.cs" />
     <Compile Include="game_views\TankView.cs" />
     <Compile Include="game_views\GameObject.cs" />
     <Compile Include="game_views\KolobokView.cs" />
