@@ -28,6 +28,7 @@ namespace Tanks.VL.ViewLayer
         List<AppleView> applesToDraw;
 
         Timer gameTimer;
+        GameStatsBoard dataPresent;
 
         public List<BulletView> BulletsToDraw { get => bulletsToDraw; set => bulletsToDraw = value; }
 

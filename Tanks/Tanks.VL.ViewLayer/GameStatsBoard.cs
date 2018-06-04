@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Tanks.Model
+namespace Tanks.VL.ViewLayer
 {
-    public partial class Form1 : Form
+    public partial class GameStatsBoard : Form
     {
-        public Form1()
+        public GameStatsBoard()
         {
             InitializeComponent();
         }
