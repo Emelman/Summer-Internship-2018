@@ -10,6 +10,8 @@ namespace Tanks.VL.ViewLayer.game_objects
 {
     public class AppleView : GameObject, IViewObjectsCommon
     {
+
+        private Rectangle rect = new Rectangle(815, 334, 48, 48);
         public AppleView()
         {
         }
@@ -21,7 +23,7 @@ namespace Tanks.VL.ViewLayer.game_objects
 
         public void DrawYourSelf(Graphics g)
         {
-            throw new NotImplementedException();
+            g.DrawImage(AllGameImages.all_sprites, Position.X, Position.Y, rect, GraphicsUnit.Pixel);
         }
 
         public void ReadDirectionFromModel(DataTransfer e)
@@ -31,7 +33,7 @@ namespace Tanks.VL.ViewLayer.game_objects
 
         public void ReadPositionFromModel(DataTransfer e)
         {
-            throw new NotImplementedException();
+            Position = e.Position;
         }
 
         public void Shoot()

@@ -16,6 +16,7 @@ namespace Tanks.VL.ViewLayer.Interfaces
         List<BulletModel> GetBulletsModels();
         EnemyModel GetEnemyById(int id);
         BrickModel GetBrickById(int id);
+        AppleModel GetAppleById(int id);
         KolobokModel GetHeroModel();
         BulletModel GetBulletById(int id);
 
@@ -27,7 +28,7 @@ namespace Tanks.VL.ViewLayer.Interfaces
         void DeleteEnemy(int id);
         void DeleteBrick(int id);
         void DeleteApple(int id);
-
+        void UpdateGameScore();
 
     }
 }

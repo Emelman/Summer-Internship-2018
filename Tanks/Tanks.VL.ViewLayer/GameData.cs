@@ -19,9 +19,11 @@ namespace Tanks.VL.ViewLayer
         private KolobokModel hero;
         private Random rnd = new Random();
         private int speed;
+        private int gameScore;
 
         public GameData(int tankNum, int _app,int _speed)
         {
+            gameScore = 0;
             speed = _speed;
             enemies = new List<EnemyModel>();
             apples = new List<AppleModel>();
@@ -80,6 +82,11 @@ namespace Tanks.VL.ViewLayer
             return bullets;
         }
 
+        public AppleModel GetAppleById(int id)
+        {
+            var apple = apples.Find(item => item.GetId == id);
+            return apple;
+        }
         public BrickModel GetBrickById(int id)
         {
             var brick = bricks.Find(item => item.GetId == id);
@@ -185,6 +192,11 @@ namespace Tanks.VL.ViewLayer
         {
             var apple = apples.Find(item => item.GetId == id);
             apples.Remove(apple);
+        }
+
+        public void UpdateGameScore()
+        {
+            gameScore++;
         }
     }
 }

@@ -313,7 +313,10 @@ namespace Tanks.VL.ViewLayer.controller
         {
             return globalModel.GetBulletById(id);
         }
-
+        public AppleModel GetAppleById(int id)
+        {
+            return globalModel.GetAppleById(id);
+        }
         public void AddEnemy(Point position)
         {
             globalModel.AddEnemy(position);
@@ -443,6 +446,11 @@ namespace Tanks.VL.ViewLayer.controller
                 model.ToDelete = true;
             }
             return pt;
+        }
+
+        public void UpdateGameScore()
+        {
+            globalModel.UpdateGameScore();
         }
     }
 }

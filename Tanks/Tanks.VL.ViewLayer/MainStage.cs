@@ -85,6 +85,16 @@ namespace Tanks.VL.ViewLayer
                 wall.Square = brick.Square;
                 wallToDraw.Add(wall);
             }
+            var appleModels = control.GetApplesModels();
+            for(var i =0; i < appleModels.Count; i++)
+            {
+                var apple = appleModels[i];
+                AppleView app = new AppleView();
+                app.Id = apple.GetId;
+                app.Position = apple.Position;
+                app.Square = apple.Square;
+                applesToDraw.Add(app);
+            }
         }
         private void InitGraphics(string[] args)
         {
@@ -136,6 +146,10 @@ namespace Tanks.VL.ViewLayer
                 {
                     bulletsToDraw[i].Update();
                 }
+            }
+            for(var i=0; i < applesToDraw.Count; i++)
+            {
+
             }
         }
         private void GameCollisions()
@@ -191,6 +205,15 @@ namespace Tanks.VL.ViewLayer
                     }
                 }
             }
+            for(var i=0; i < applesToDraw.Count; i++)
+            {
+                if (CollisionTests.CheckHeroWallCollision(control.GetHeroModel(), control.GetAppleById(applesToDraw[i].Id)))
+                {
+                    control.DeleteApple(applesToDraw[i].Id);
+                    applesToDraw.Remove(applesToDraw[i]);
+                    control.UpdateGameScore();
+                }
+            }
         }
 
         private void Render()
@@ -210,6 +233,10 @@ namespace Tanks.VL.ViewLayer
                 for(var i = 0; i < bulletsToDraw.Count; i++)
                 {
                     bulletsToDraw[i].DrawYourSelf(g);
+                }
+                for(var i=0; i < applesToDraw.Count; i++)
+                {
+                    applesToDraw[i].DrawYourSelf(g);
                 }
                 heroToDraw.DrawYourSelf(g);
             }
